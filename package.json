@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "format-utils": "^0.0.7",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "mongoose": "^6.4.1",
+    "mongoose-unique-validator": "^3.1.0",
+    "nodemon": "^2.0.19",
+    "validator": "^13.7.0"
+  }
+}

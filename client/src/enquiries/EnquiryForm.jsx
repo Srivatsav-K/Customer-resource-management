@@ -34,8 +34,10 @@ const EnquiryForm = (props) => {
         budget: Yup.number()
             .required('Budget is required!')
             .min(1),
-        competitors: Yup.string(),
-        estimatedTimelines: Yup.string(),
+        competitors: Yup.string()
+            .required(),
+        estimatedTimelines: Yup.string()
+            .required(),
         expectedClosingDate: Yup.date()
             .required('Required!'),
         status: Yup.string()

@@ -1,5 +1,7 @@
 const Client = require('../models/client')
 const Contact = require('../models/contact')
+const Enquiry = require('../models/enquiry')
+const Quotation = require('../models/quotation')
 
 const clientControllers = {}
 
@@ -68,26 +70,30 @@ clientControllers.update = (req, res) => {
         })
 }
 
-clientControllers.destroy = (req, res) => {
+clientControllers.destroy = async (req, res) => {
+    const userId = req.user._id
     const id = req.params.id
 
-    Client.findOneAndDelete({ _id: id })
-        .then((client) => {
-            if (!client) {
-                res.json({ errors: 'Not found' })
+    try {
+        const contacts = await Contact.find({ client: id })
+        const deletion = await contacts.forEach(async (contact) => {
+            const enquiries = await Enquiry.find({ contact: contact._id })
+            if (enquiries.length > 0) {
+                enquiries.forEach(async (enquiry) => {
+                    const deleteQuotations = await Quotation.deleteMany({ enquiry: enquiry._id })
+                    const deleteEnquiries = await Enquiry.deleteMany({ contact: contact._id })
+                    const deleteContacts = await Contact.deleteMany({ client: id })
+                })
             } else {
-                Contact.deleteMany({ client: client._id })
-                    .then(() => {
-                        res.json(client)
-                    })
-                    .catch((err) => {
-                        res.json(err)
-                    })
+                await Contact.deleteMany({ client: id })
             }
         })
-        .catch((err) => {
-            res.json(err)
-        })
+        const deletedClient = await Client.findOneAndDelete({ user: userId, _id: id })
+        res.json(deletedClient)
+    } catch (err) {
+        console.log(err)
+        res.json(err)
+    }
 
 }
 

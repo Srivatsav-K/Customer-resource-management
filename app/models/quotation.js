@@ -15,6 +15,7 @@ const quotationSchema = new Schema({
     },
     client: {
         type: Schema.Types.ObjectId,
+        required: [true, '{PATH} is required!'],
         ref: 'Client'
     },
     date: {

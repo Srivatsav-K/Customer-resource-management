@@ -42,10 +42,9 @@ const DeleteButton = (props) => {
                             <Typography variant="h5" textAlign='center'>
                                 Are you sure ?
                                 <Typography variant="body2">
-                                    This will also delete related contacts.
+                                    This will delete all related fields.
                                 </Typography>
                             </Typography>
-
 
                         </Stack>
                     </DialogTitle>

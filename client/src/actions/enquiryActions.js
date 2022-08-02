@@ -1,5 +1,6 @@
 import axios from "axios"
 import { toast } from 'react-toastify'
+import { startGetQuotations } from "./quotationActions"
 //---------------------------------------------------------------------------------------
 export const ENQUIRIES_LOADING_TRUE = 'ENQUIRIES_LOADING_TRUE'
 export const ENQUIRIES_LOADING_FALSE = 'ENQUIRIES_LOADING_FALSE'
@@ -145,7 +146,7 @@ export const startUpdateEnquiryDetails = (_id, formData, setErrors, history) => 
 
 export const startDeleteEnquiry = (_id, history) => {
     return (
-        (dispatch) => {
+        (dispatch, getState) => {
             axios.delete(`http://localhost:3050/api/enquiries/${_id}`, {
                 headers: {
                     'x-auth': localStorage.getItem('token')
@@ -157,6 +158,11 @@ export const startDeleteEnquiry = (_id, history) => {
                         toast.error(result.errors.message)
                     } else {
                         dispatch(deleteEnquiry(result))
+                        if (getState().user.data.role === 'admin') {
+                            dispatch(startGetQuotations('quotations/all'))
+                        } else {
+                            dispatch(startGetQuotations('quotations'))
+                        }
                         history.push('/user/enquiries')
                         toast.success('Deleted Successfully!')
                     }

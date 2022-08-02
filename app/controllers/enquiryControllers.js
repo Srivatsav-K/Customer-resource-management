@@ -1,4 +1,5 @@
 const Enquiry = require('../models/enquiry')
+const Quotation = require('../models/quotation')
 
 const enquiryControllers = {}
 
@@ -77,11 +78,10 @@ enquiryControllers.create = (req, res) => {
 
 
 enquiryControllers.update = (req, res) => {
-    const userId = req.user._id
     const id = req.params.id
     const body = req.body
 
-    Enquiry.findOneAndUpdate({ _id: id, user: userId }, body, { new: true, runValidators: true, context: 'query' })
+    Enquiry.findByIdAndUpdate(id, body, { new: true, runValidators: true })
         .populate({
             path: 'contact', select: ['name', 'email', 'phone'],
             populate: { path: 'client', select: 'name' }
@@ -98,20 +98,18 @@ enquiryControllers.update = (req, res) => {
         })
 }
 
-enquiryControllers.destroy = (req, res) => {
+enquiryControllers.destroy = async (req, res) => {
+    const userId = req.user._id
     const id = req.params.id
 
-    Enquiry.findByIdAndDelete(id)
-        .then((enquiry) => {
-            if (!enquiry) {
-                res.json({ errors: 'Not found!' })
-            } else {
-                res.json(enquiry)
-            }
-        })
-        .catch((err) => {
-            res.json(err)
-        })
+    try {
+        await Quotation.deleteMany({ enquiry: id })
+        const deletedEnquiry = await Enquiry.findOneAndDelete({ user: userId, _id: id })
+        res.json(deletedEnquiry)
+    } catch (err) {
+        console.log(err)
+        res.json(err)
+    }
 }
 
 module.exports = enquiryControllers

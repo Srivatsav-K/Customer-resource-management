@@ -1,6 +1,7 @@
 import axios from "axios"
 import { toast } from 'react-toastify'
 import { startGetEnquiries } from "./enquiryActions"
+import { startGetQuotations } from "./quotationActions"
 //--------------------------------------------------------------------------
 export const CONTACTS_LOADING_TRUE = 'CONTACTS_LOADING_TRUE'
 export const CONTACTS_LOADING_FALSE = 'CONTACTS_LOADING_FALSE'
@@ -149,7 +150,7 @@ export const startUpdateContactDetails = (_id, formData, setErrors, history) => 
 
 export const startDeleteContact = (_id, history) => {
     return (
-        (dispatch) => {
+        (dispatch, getState) => {
             axios.delete(`http://localhost:3050/api/contacts/${_id}`, {
                 headers: {
                     'x-auth': localStorage.getItem('token')
@@ -161,7 +162,13 @@ export const startDeleteContact = (_id, history) => {
                         toast.error(result.errors.message)
                     } else {
                         dispatch(deleteContact(result))
-                        dispatch(startGetEnquiries())
+                        if (getState().user.data.role === 'admin') {
+                            dispatch(startGetEnquiries('enquiries/all'))
+                            dispatch(startGetQuotations('quotations/all'))
+                        } else {
+                            dispatch(startGetEnquiries('enquiries'))
+                            dispatch(startGetQuotations('quotations'))
+                        }
                         history.push('/user/contacts')
                         toast.success('Deleted Successfully!')
                     }

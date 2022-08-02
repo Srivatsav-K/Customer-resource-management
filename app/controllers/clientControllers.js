@@ -80,9 +80,9 @@ clientControllers.destroy = async (req, res) => {
             const enquiries = await Enquiry.find({ contact: contact._id })
             if (enquiries.length > 0) {
                 enquiries.forEach(async (enquiry) => {
-                    const deleteQuotations = await Quotation.deleteMany({ enquiry: enquiry._id })
-                    const deleteEnquiries = await Enquiry.deleteMany({ contact: contact._id })
-                    const deleteContacts = await Contact.deleteMany({ client: id })
+                    await Quotation.deleteMany({ enquiry: enquiry._id })
+                    await Enquiry.deleteMany({ contact: contact._id })
+                    await Contact.deleteMany({ client: id })
                 })
             } else {
                 await Contact.deleteMany({ client: id })

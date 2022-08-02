@@ -1,5 +1,6 @@
 const Contact = require('../models/contact')
 const Enquiry = require('../models/enquiry')
+const Quotation = require('../models/quotation')
 
 const contactControllers = {}
 
@@ -61,27 +62,21 @@ contactControllers.update = (req, res) => {
         })
 }
 
-contactControllers.destroy = (req, res) => {
+contactControllers.destroy = async (req, res) => {
+    const userId = req.user._id
     const id = req.params.id
 
-    Contact.findByIdAndDelete(id)
-        .then((contact) => {
-            if (!contact) {
-                res.json({ errors: 'Not found' })
-            } else {
-                Enquiry.deleteMany({ contact: contact._id })
-                    .then(() => {
-                        res.json(contact)
-                    })
-                    .catch((err) => {
-                        res.json(err)
-                    })
-            }
+    try {
+        const enquiries = await Enquiry.find({ contact: id })
+        await enquiries.forEach(async (enquiry) => {
+            await Quotation.deleteMany({ enquiry: enquiry._id })
+            await Enquiry.deleteMany({ contact: id })
         })
-        .catch((err) => {
-            res.json(err)
-        })
-
+        const deletedContact = await Contact.findOneAndDelete({ user: userId, _id: id })
+        res.json(deletedContact)
+    } catch (error) {
+        res.json(error)
+    }
 }
 
 module.exports = contactControllers

@@ -145,7 +145,13 @@ const Clients = () => {
             {/* --------------------------------------------------------------------------------------- */}
 
             <Grid item xs={12}>
-                <TableComponent data={filteredData} columns={columns} />
+                {(clients.length === 0) ? (
+                    <Typography color='GrayText' textAlign='center' variant="h5">
+                        No Clients present
+                    </Typography>
+                ) : (
+                    <TableComponent data={filteredData} columns={columns} />
+                )}
             </Grid>
         </Grid>
     )

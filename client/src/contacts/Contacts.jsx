@@ -147,7 +147,13 @@ const Contacts = () => {
             {/* --------------------------------------------------------------------------------------- */}
 
             <Grid item xs={12}>
-                <TableComponent data={filteredData} columns={columns} />
+                {(contacts.length === 0) ? (
+                    <Typography color='GrayText' textAlign='center' variant="h5">
+                        No Contacts present
+                    </Typography>
+                ) : (
+                    <TableComponent data={filteredData} columns={columns} />
+                )}
             </Grid>
         </Grid>
 

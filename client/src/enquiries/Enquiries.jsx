@@ -117,7 +117,13 @@ const Enquiries = () => {
             </Grid>
 
             <Grid item xs={12}>
-                <TableComponent columns={columns} data={filteredData} />
+                {(enquiries.length === 0) ? (
+                    <Typography color='GrayText' textAlign='center' variant="h5">
+                        No Enquiries present
+                    </Typography>
+                ) : (
+                    <TableComponent data={filteredData} columns={columns} />
+                )}
             </Grid>
         </Grid>
     )

@@ -121,7 +121,13 @@ const Quotations = () => {
             </Grid>
 
             <Grid item xs={12}>
-                <TableComponent columns={user.role === 'admin' ? adminColumns : columns} data={filteredData} />
+                {(quotations.length === 0) ? (
+                    <Typography color='GrayText' textAlign='center' variant="h5">
+                        No Quotations present
+                    </Typography>
+                ) : (
+                    <TableComponent columns={user.role === 'admin' ? adminColumns : columns} data={filteredData} />
+                )}
             </Grid>
 
 

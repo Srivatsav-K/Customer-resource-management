@@ -112,7 +112,7 @@ export const startLogin = (formData, resetForm, props) => {
     )
 }
 
-export const startSignup = (formData, resetForm, setErrors, props) => {
+export const startSignup = (formData, resetForm, setErrors, history) => {
     return (
         (dispatch, getState) => {
             dispatch(loadingTrue())
@@ -130,7 +130,7 @@ export const startSignup = (formData, resetForm, setErrors, props) => {
                         toast.success(result.message)
                         dispatch(userIsNew(false))
                         resetForm()
-                        props.history.push('/login')
+                        history.push('/login')
                     }
                 })
                 .catch((err) => {

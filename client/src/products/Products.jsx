@@ -122,13 +122,21 @@ const Products = () => {
                 </Grid>
             </Grid>
 
-            {(filteredData.length > 0) ? (
-                <ProductListing products={filteredData} />
-            ) : (
-                <Typography color='error' p={4} >
-                    No results found
-                </Typography>
-            )}
+            {
+                (products.length === 0) ? (
+                    <Typography color='GrayText' textAlign='center' variant="h5">
+                        No Products present
+                    </Typography>
+                ) : (
+                    (filteredData.length > 0) ? (
+                        <ProductListing products={filteredData} />
+                    ) : (
+                        <Typography color='error' p={4} >
+                            No results found
+                        </Typography>
+                    )
+                )
+            }
         </Grid >
     )
 }

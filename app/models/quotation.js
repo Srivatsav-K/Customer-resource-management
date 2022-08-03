@@ -18,6 +18,11 @@ const quotationSchema = new Schema({
         required: [true, '{PATH} is required!'],
         ref: 'Client'
     },
+    contact: {
+        type: Schema.Types.ObjectId,
+        required: [true, '{PATH} is required!'],
+        ref: 'Contact'
+    },
     date: {
         type: Date,
         required: [true, 'Issue date is required!']

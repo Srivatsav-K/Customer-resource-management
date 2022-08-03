@@ -22,7 +22,7 @@ const Enquiries = () => {
         { heading: 'Budget', value: 'budget' },
         { heading: 'Competitors', value: 'competitors' },
         { heading: 'Timelines', value: 'estimatedTimelines' },
-        { heading: 'Closing Date', value: 'expectedClosingDate' },
+        { heading: 'Closing Date', value: 'expectedClosingDate', type: 'date' },
         { heading: 'Comments', value: 'comments', type: 'array' },
     ]
 

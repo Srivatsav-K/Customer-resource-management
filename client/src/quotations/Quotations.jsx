@@ -21,7 +21,8 @@ const Quotations = () => {
     const columns = [
         { heading: 'Title', value: 'title' },
         { heading: 'Value', value: 'total' },
-        { heading: 'Date', value: 'date' },
+        { heading: 'Date', value: 'date', type: 'date' },
+        { heading: 'Contact', value: 'contact.name' },
         { heading: 'Client', value: 'client.name' },
         { heading: 'Items', value: 'items', type: 'array' },
     ]

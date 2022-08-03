@@ -1,4 +1,5 @@
 import { withRouter } from "react-router-dom"
+import { format, parseISO } from 'date-fns'
 //--------------------------------------------------------------------------------------
 import { Link, TableCell, TableRow } from "@mui/material"
 //--------------------------------------------------------------------------------------
@@ -26,6 +27,12 @@ const TableRows = (props) => {
                             </TableCell>
                         )
 
+                    } else if (colField.type === 'date') {
+                        return (
+                            <TableCell key={i}>
+                                {format(parseISO(dataField[colField.value]), "dd-MM-yyyy")}
+                            </TableCell>
+                        )
                     } else if (colField.value.includes('.')) {
                         const splitColFieldValue = colField.value.split('.')
                         return (

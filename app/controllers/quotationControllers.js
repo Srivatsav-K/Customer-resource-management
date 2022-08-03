@@ -5,7 +5,7 @@ const quotationControllers = {}
 quotationControllers.list = (req, res) => {
     const userId = req.user._id
 
-    Quotation.find({ user: userId }).populate('client', ['name'])
+    Quotation.find({ user: userId }).populate('client', ['name']).populate('contact', ['name'])
         .then((quotations) => {
             res.json(quotations)
         })
@@ -16,7 +16,7 @@ quotationControllers.list = (req, res) => {
 
 //admin access
 quotationControllers.listAll = (req, res) => {
-    Quotation.find().populate('items').populate('client', ['name']).populate('user', ['username'])
+    Quotation.find().populate('items').populate('client', ['name']).populate('contact', ['name']).populate('user', ['username'])
         .then((quotations) => {
             res.json(quotations)
         })
@@ -28,7 +28,7 @@ quotationControllers.listAll = (req, res) => {
 quotationControllers.show = (req, res) => {
     const userId = req.user._id
     const id = req.params.id
-    Quotation.findOne({ _id: id, user: userId }).populate('client', ['name']).populate('user', ['username'])
+    Quotation.findOne({ _id: id, user: userId }).populate('client', ['name']).populate('contact', ['name']).populate('user', ['username'])
         .then((quotation) => {
             if (!quotation) {
                 res.json({ errors: 'Not found!' })
@@ -48,7 +48,10 @@ quotationControllers.create = (req, res) => {
     const quotation = new Quotation({ ...body, user: userId })
     quotation.save()
         .then((quotation) => {
-            Quotation.findById(quotation._id).populate({ path: 'items', populate: { path: 'product', select: ['name', 'basePrice'] } }).populate('client', ['name']).populate('user', ['username'])
+            Quotation.findById(quotation._id).populate({ path: 'items', populate: { path: 'product', select: ['name', 'basePrice'] } })
+                .populate('client', ['name'])
+                .populate('contact', ['name'])
+                .populate('user', ['username'])
                 .then((quotation) => {
                     res.json(quotation)
                 })

@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
-import moment from 'moment'
-
 //----------------------------------------------------------------------------------------------------
 
 import ContactInfo from './ContactInfo'
@@ -18,15 +16,31 @@ import { Button, MenuItem, Paper, Stack, TextField, Typography } from '@mui/mate
 //----------------------------------------------------------------------------------------------------
 
 const QuotationForm = (props) => {
-    const { handleSubmission, title, date: quoteDate, expiryDate: quoteExpiry, enquiry, client, items: quoteItems } = props
+    const {
+        handleSubmission,
+        title,
+        enquiry,
+        client,
+        contact,
+        date: quoteDate,
+        expiryDate: quoteExpiry,
+        items: quoteItems
+    } = props
 
 
-    const [date, setDate] = useState((quoteDate && quoteDate.slice(0, 10)) || moment().format('L'))
-    const [expiryDate, setExpiryDate] = useState((quoteExpiry && quoteExpiry.slice(0, 10)) || null)
+    const [date, setDate] = useState(quoteDate || Date.now())
+    const [expiryDate, setExpiryDate] = useState(quoteExpiry || null)
     const [items, setItems] = useState(quoteItems || [])
     const [gstRate, setGstRate] = useState(5)
 
-    const [user, company, enquiries, clients, products] = useSelector((state) => [state.user.data, state.account.companyDetails, state.enquiries.data, state.clients.data, state.products.data])
+    const [user, company, enquiries, clients, contacts, products] = useSelector((state) => [
+        state.user.data,
+        state.account.companyDetails,
+        state.enquiries.data,
+        state.clients.data,
+        state.contacts.data,
+        state.products.data
+    ])
 
     const subTotal = useMemo(() => {
         return items.reduce((prevVal, currentVal) => {
@@ -46,6 +60,7 @@ const QuotationForm = (props) => {
         initialValues: {
             title: title || '',
             enquiry: enquiry || '',
+            contact: (contact && contact._id) || '',
             client: (client && client._id) || ''
         },
         onSubmit: (formData, { resetForm }) => {
@@ -58,16 +73,19 @@ const QuotationForm = (props) => {
         }
     })
 
+    const contactDetails = useMemo(() => {
+        return contacts.find((ele) => ele._id === formik.values.contact)
+    }, [contacts, formik.values.contact])
+
     const clientDetails = useMemo(() => {
         return clients.find((ele) => ele._id === formik.values.client)
     }, [clients, formik.values.client])
 
     const handleDateChange = (e) => {
-        setDate(e.format('L'))
+        setDate(e)
     }
-
     const handleExpiryDateChange = (e) => {
-        setExpiryDate(e.format('L'))
+        setExpiryDate(e)
     }
 
     // Table -------------------------------------------------------------------------
@@ -177,7 +195,30 @@ const QuotationForm = (props) => {
                                 </Stack>
 
                                 <Stack direction='row'>
-                                    <Typography gutterBottom p={1} >To: </Typography>
+                                    <Typography gutterBottom p={1} >Contact: </Typography>
+
+                                    <TextField
+                                        select
+                                        required
+                                        name='contact'
+                                        value={formik.values.contact}
+                                        onChange={formik.handleChange}
+                                        variant='standard'
+                                        size='small'
+                                        error={formik.touched.contact && Boolean(formik.errors.contact)}
+                                        helperText={formik.touched.contact && formik.errors.contact}
+                                        InputProps={{ sx: { width: { xs: '20vw', lg: '10vw' } } }}
+                                    >
+                                        {contacts.map((ele) => {
+                                            return (
+                                                <MenuItem value={ele._id} key={ele._id}> {ele.name} </MenuItem>
+                                            )
+                                        })}
+                                    </TextField>
+                                </Stack>
+
+                                <Stack direction='row'>
+                                    <Typography gutterBottom p={1} >Client: </Typography>
 
                                     <TextField
                                         select
@@ -201,14 +242,16 @@ const QuotationForm = (props) => {
 
                             </Stack>
 
-
-                            {clientDetails && <ContactInfo source={clientDetails} />}
+                            <Stack>
+                                {contactDetails && <ContactInfo source={{ name: contactDetails.name }} />}
+                                {clientDetails && <ContactInfo source={clientDetails} />}
+                            </Stack>
                         </Stack>
 
                         {/* Dates */}
                         <Stack spacing={1} >
                             <DatePicker
-                                inputFormat="DD-MM-YYYY"
+                                inputFormat="dd-MM-yyyy"
                                 label='Date'
                                 value={date}
                                 onChange={handleDateChange}
@@ -216,11 +259,11 @@ const QuotationForm = (props) => {
                             />
 
                             <DatePicker
-                                inputFormat="DD-MM-YYYY"
+                                inputFormat="dd-MM-yyyy"
                                 label='Expiry date'
                                 value={expiryDate}
                                 onChange={handleExpiryDateChange}
-                                minDate={moment()}
+                                minDate={Date.now()}
                                 renderInput={(params) => <TextField size='small' error={false} required variant='standard'  {...params} />}
                             />
                         </Stack>

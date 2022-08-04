@@ -71,10 +71,9 @@ const companySchema = new Schema({
     },
     pan: {
         type: String,
-        required: [true, 'PAN no. is required!'],
         validate: {
             validator: (value) => {
-                return Validator.pan(value)
+                return value ? Validator.pan(value) : true
             },
             message: () => {
                 return 'Invalid PAN'

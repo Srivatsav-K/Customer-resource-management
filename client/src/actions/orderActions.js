@@ -5,9 +5,9 @@ export const ORDERS_LOADING_TRUE = 'ORDERS_LOADING_TRUE'
 export const ORDERS_LOADING_FALSE = 'ORDERS_LOADING_FALSE'
 export const GET_ORDERS = 'GET_ORDERS'
 export const CREATE_ORDER = 'CREATE_ORDER'
-
 export const GET_ORDER_DETAILS = 'GET_ORDER_DETAILS'
 export const CLEAR_ORDER_DETAILS = 'CLEAR_ORDER_DETAILS'
+export const UPDATE_ORDER_DETAILS = 'UPDATE_ORDER_DETAILS'
 export const DELETE_ORDER = 'DELETE_ORDER'
 //-----------------------------------------------------------------------------
 const loadingTrue = () => {
@@ -29,6 +29,9 @@ const getOrderDetails = (data) => {
 }
 export const clearOrderDetails = () => {
     return { type: CLEAR_ORDER_DETAILS }
+}
+const updateOrderDetails = (data) => {
+    return { type: UPDATE_ORDER_DETAILS, payload: data }
 }
 const deleteOrder = (data) => {
     return { type: DELETE_ORDER, payload: data }
@@ -64,7 +67,7 @@ const serverErrorHelper = (errors) => {
     return fieldErrors
 }
 
-export const startCreateOrder = (formData, history, resetForm) => {
+export const startCreateOrder = (formData, resetForm, history) => {
     return (
         (dispatch) => {
             dispatch(loadingTrue())
@@ -119,6 +122,30 @@ export const startGetOrderDetails = (path) => {
     )
 }
 
+export const startUpdateOrderDetails = (_id, formData, resetForm, history) => {
+    return (
+        (dispatch) => {
+            axios.put(`http://localhost:3050/api/orders/${_id}`, formData, {
+                headers: {
+                    'x-auth': localStorage.getItem('token')
+                }
+            })
+                .then((response) => {
+                    const result = response.data
+                    if (result.errors) {
+                        toast.error(result.errors.message)
+                    } else {
+                        dispatch(updateOrderDetails(result))
+                        toast.success('Updated successfully!')
+                        history.push('/user/orders')
+                    }
+                })
+                .catch((err) => {
+                    toast.error(err.message)
+                })
+        }
+    )
+}
 
 export const startDeleteOrder = (_id, history) => {
     return (

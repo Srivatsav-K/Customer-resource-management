@@ -6,12 +6,12 @@ import OrderForm from './OrderForm'
 import { Grid } from '@mui/material'
 //--------------------------------------------------------------------------------------
 
-const CreateOrder = () => {
+const CreateOrder = (props) => {
 
     const dispatch = useDispatch()
 
-    const handleSubmission = (data, history, resetForm) => {
-        dispatch(startCreateOrder(data, history, resetForm))
+    const handleSubmission = (formData, resetForm) => {
+        dispatch(startCreateOrder(formData, resetForm, props.history))
     }
 
     return (

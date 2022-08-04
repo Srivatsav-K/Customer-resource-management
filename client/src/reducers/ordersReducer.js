@@ -1,4 +1,4 @@
-import { CLEAR_ORDER_DETAILS, CREATE_ORDER, DELETE_ORDER, GET_ORDERS, GET_ORDER_DETAILS, ORDERS_LOADING_FALSE, ORDERS_LOADING_TRUE } from "../actions/orderActions"
+import { CLEAR_ORDER_DETAILS, CREATE_ORDER, DELETE_ORDER, GET_ORDERS, GET_ORDER_DETAILS, ORDERS_LOADING_FALSE, ORDERS_LOADING_TRUE, UPDATE_ORDER_DETAILS } from "../actions/orderActions"
 
 const ordersInitialValue = {
     data: [],
@@ -26,6 +26,18 @@ const ordersReducer = (state = ordersInitialValue, action) => {
         }
         case (CLEAR_ORDER_DETAILS): {
             return { ...state, details: {} }
+        }
+        case (UPDATE_ORDER_DETAILS): {
+            return ({
+                ...state,
+                data: state.data.map((ele) => {
+                    if (ele._id === action.payload._id) {
+                        return { ...ele, ...action.payload }
+                    } else {
+                        return { ...ele }
+                    }
+                })
+            })
         }
         case (DELETE_ORDER): {
             return ({

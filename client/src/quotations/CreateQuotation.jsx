@@ -11,12 +11,12 @@ import { Grid } from '@mui/material'
 
 //--------------------------------------------------------------------------------------
 
-const CreateQuotation = () => {
+const CreateQuotation = (props) => {
 
     const dispatch = useDispatch()
 
-    const handleSubmission = (data, history, resetForm) => {
-        dispatch(startCreateQuotation(data, history, resetForm))
+    const handleSubmission = (formData, resetForm) => {
+        dispatch(startCreateQuotation(formData, resetForm, props.history))
     }
 
     return (

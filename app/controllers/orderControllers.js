@@ -28,7 +28,7 @@ orderControllers.show = (req, res) => {
     const userId = req.user._id
     const id = req.params.id
 
-    Order.findOne({ _id: id, user: userId })
+    Order.findOne({ _id: id, user: userId }).populate('client', ['name']).populate('contact', ['name']).populate('user', ['username'])
         .then((order) => {
             if (!order) {
                 res.json({ errors: 'Not found!' })
@@ -48,7 +48,13 @@ orderControllers.create = (req, res) => {
     const order = new Order({ ...body, user: userId })
     order.save()
         .then((order) => {
-            res.json(order)
+            Order.findById(order._id).populate('client', ['name']).populate('contact', ['name']).populate('user', ['username'])
+                .then((order) => {
+                    res.json(order)
+                })
+                .catch((err) => {
+                    res.json(err)
+                })
         })
         .catch((err) => {
             res.json(err)
@@ -60,7 +66,7 @@ orderControllers.update = (req, res) => {
     const body = req.body
     const id = req.params.id
 
-    Order.findOneAndUpdate({ _id: id, user: userId }, body, { new: true, runValidators: true })
+    Order.findOneAndUpdate({ _id: id, user: userId }, body, { new: true, runValidators: true }).populate('client', ['name']).populate('contact', ['name']).populate('user', ['username'])
         .then((order) => {
             if (!order) {
                 res.json({ errors: 'Not found!' })

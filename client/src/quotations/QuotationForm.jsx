@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
+import Pdf from 'react-to-pdf'
 //----------------------------------------------------------------------------------------------------
 import ContactInfo from '../components/ContactInfo'
 import ItemsTable from '../components/ItemsTable'
@@ -11,6 +11,8 @@ import DropDown from '../components/DropDown'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Button, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material'
 //----------------------------------------------------------------------------------------------------
+
+const ref = React.createRef()
 
 const QuotationForm = (props) => {
     const {
@@ -65,7 +67,7 @@ const QuotationForm = (props) => {
                 toast.error('Items cannot be empty')
             } else {
                 const data = { ...formData, items, date, expiryDate, gstRate, subTotal, gstAmount, total: totalAmount }
-                handleSubmission(data, props.history, resetForm)
+                handleSubmission(data, resetForm)
             }
         }
     })
@@ -139,136 +141,148 @@ const QuotationForm = (props) => {
     }
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <Paper>
-                <Stack spacing={4} minWidth='50vw' p={6} >
+        <div>
+            <form onSubmit={formik.handleSubmit} ref={ref}>
+                <Paper>
+                    <Stack spacing={4} minWidth='50vw' p={6} >
 
-                    {/* Row 1 */}
-                    <Stack direction='row' justifyContent='space-between'>
-                        {/* enquiry & company info */}
-                        <Stack spacing={1}>
-                            <TextField
-                                name='title'
-                                required
-                                variant='standard'
-                                label='quotation title'
-                                value={formik.values.title}
-                                onChange={formik.handleChange}
-                                error={formik.touched.title && Boolean(formik.errors.title)}
-                                helperText={formik.touched.title && formik.errors.title}
-                            />
-                            <ContactInfo source={company} user={user} />
+                        {/* Row 1 */}
+                        <Stack direction='row' justifyContent='space-between'>
+                            {/* enquiry & company info */}
+                            <Stack spacing={1}>
+                                <TextField
+                                    name='title'
+                                    required
+                                    variant='standard'
+                                    label='quotation title'
+                                    value={formik.values.title}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.title && Boolean(formik.errors.title)}
+                                    helperText={formik.touched.title && formik.errors.title}
+                                />
+
+                            </Stack>
+
+                            <Typography color='GrayText' variant='h3'>Quotation</Typography>
                         </Stack>
 
-                        <Typography color='GrayText' variant='h3'>Quotation</Typography>
-                    </Stack>
+                        {/* Row 2 */}
+                        <ContactInfo source={company} user={user} />
 
+                        {/* Row 3 */}
+                        <Stack direction='row' justifyContent='space-between'>
+                            {/* Client & contact info */}
+                            <Stack spacing={2}>
+                                <DropDown
+                                    name='enquiry'
+                                    label='Enquiry'
+                                    size='small'
+                                    variant='standard'
+                                    value={formik.values.enquiry}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.enquiry && Boolean(formik.errors.enquiry)}
+                                    helperText={formik.touched.enquiry && formik.errors.enquiry}
+                                    required
+                                >
+                                    {enquiries.map((ele) => {
+                                        return (
+                                            <MenuItem value={ele._id} key={ele._id}> {ele.name} </MenuItem>
+                                        )
+                                    })}
+                                </DropDown>
 
-                    {/* Row 2 */}
-                    <Stack direction='row' justifyContent='space-between'>
-                        {/* Client & contact info */}
-                        <Stack spacing={2}>
-                            <DropDown
-                                name='enquiry'
-                                label='Enquiry'
-                                size='small'
-                                value={formik.values.enquiry}
-                                onChange={formik.handleChange}
-                                error={formik.touched.enquiry && Boolean(formik.errors.enquiry)}
-                                helperText={formik.touched.enquiry && formik.errors.enquiry}
-                                required
-                            >
-                                {enquiries.map((ele) => {
-                                    return (
-                                        <MenuItem value={ele._id} key={ele._id}> {ele.name} </MenuItem>
-                                    )
-                                })}
-                            </DropDown>
+                                <DropDown
+                                    name='contact'
+                                    label='Contact'
+                                    size='small'
+                                    variant='standard'
+                                    value={formik.values.contact}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.contact && Boolean(formik.errors.contact)}
+                                    required
+                                >
+                                    {contacts.map((ele) => {
+                                        return (
+                                            <MenuItem value={ele._id} key={ele._id}> {ele.name} </MenuItem>
+                                        )
+                                    })}
+                                </DropDown>
 
-                            <DropDown
-                                name='contact'
-                                label='Contact'
-                                size='small'
-                                value={formik.values.contact}
-                                onChange={formik.handleChange}
-                                error={formik.touched.contact && Boolean(formik.errors.contact)}
-                                required
-                            >
-                                {contacts.map((ele) => {
-                                    return (
-                                        <MenuItem value={ele._id} key={ele._id}> {ele.name} </MenuItem>
-                                    )
-                                })}
-                            </DropDown>
+                                <DropDown
+                                    required
+                                    label='Client'
+                                    name='client'
+                                    size='small'
+                                    variant='standard'
+                                    value={formik.values.client}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.client && Boolean(formik.errors.client)}
+                                    helperText={formik.touched.client && formik.errors.client}
+                                >
+                                    {clients.map((ele) => {
+                                        return (
+                                            <MenuItem value={ele._id} key={ele._id}> {ele.name} </MenuItem>
+                                        )
+                                    })}
+                                </DropDown>
 
-                            <DropDown
-                                required
-                                label='Client'
-                                name='client'
-                                size='small'
-                                value={formik.values.client}
-                                onChange={formik.handleChange}
-                                error={formik.touched.client && Boolean(formik.errors.client)}
-                                helperText={formik.touched.client && formik.errors.client}
-                            >
-                                {clients.map((ele) => {
-                                    return (
-                                        <MenuItem value={ele._id} key={ele._id}> {ele.name} </MenuItem>
-                                    )
-                                })}
-                            </DropDown>
+                                <Stack>
+                                    {contactDetails && <ContactInfo source={{ name: contactDetails.name }} />}
+                                    {clientDetails && <ContactInfo source={clientDetails} />}
+                                </Stack>
+                            </Stack>
 
-                            <Stack>
-                                {contactDetails && <ContactInfo source={{ name: contactDetails.name }} />}
-                                {clientDetails && <ContactInfo source={clientDetails} />}
+                            {/* Dates */}
+                            <Stack spacing={1} >
+                                <DatePicker
+                                    inputFormat="dd-MM-yyyy"
+                                    label='Date'
+                                    value={date}
+                                    onChange={handleDateChange}
+                                    renderInput={(params) => <TextField size='small' required variant='standard'  {...params} />}
+                                />
+
+                                <DatePicker
+                                    inputFormat="dd-MM-yyyy"
+                                    label='Expiry date'
+                                    value={expiryDate}
+                                    onChange={handleExpiryDateChange}
+                                    minDate={Date.now()}
+                                    renderInput={(params) => <TextField size='small' error={false} required variant='standard'  {...params} />}
+                                />
                             </Stack>
                         </Stack>
 
-                        {/* Dates */}
-                        <Stack spacing={1} >
-                            <DatePicker
-                                inputFormat="dd-MM-yyyy"
-                                label='Date'
-                                value={date}
-                                onChange={handleDateChange}
-                                renderInput={(params) => <TextField size='small' required variant='standard'  {...params} />}
-                            />
 
-                            <DatePicker
-                                inputFormat="dd-MM-yyyy"
-                                label='Expiry date'
-                                value={expiryDate}
-                                onChange={handleExpiryDateChange}
-                                minDate={Date.now()}
-                                renderInput={(params) => <TextField size='small' error={false} required variant='standard'  {...params} />}
-                            />
-                        </Stack>
+                        <ItemsTable
+                            items={items}
+                            handleAddLineitem={handleAddLineitem}
+                            products={products}
+                            handleChange={handleChange}
+                            handleRemove={handleRemove}
+                            subTotal={subTotal}
+                            gstRate={gstRate}
+                            handleGstRateChange={handleGstRateChange}
+                            gstAmount={gstAmount}
+                            totalAmount={totalAmount}
+                        />
+
+
                     </Stack>
 
+                    <Stack alignItems='center' p={3}>
+                        <Button type='submit' variant='contained'>Save</Button>
+                    </Stack>
+                </Paper>
 
-                    <ItemsTable
-                        items={items}
-                        handleAddLineitem={handleAddLineitem}
-                        products={products}
-                        handleChange={handleChange}
-                        handleRemove={handleRemove}
-                        subTotal={subTotal}
-                        gstRate={gstRate}
-                        handleGstRateChange={handleGstRateChange}
-                        gstAmount={gstAmount}
-                        totalAmount={totalAmount}
-                    />
-
-
-                </Stack>
-
-                <Stack alignItems='center' p={3}>
-                    <Button type='submit' variant='contained'>Save</Button>
-                </Stack>
-            </Paper>
-
-        </form >
+            </form >
+            <Stack alignItems='center'>
+                <Pdf targetRef={ref} filename={`${formik.values.title}.pdf`}>
+                    {({ toPdf }) => <Button type='button' onClick={toPdf}>Download</Button>}
+                </Pdf>
+            </Stack>
+        </div>
     )
 }
 
-export default withRouter(QuotationForm)
+export default QuotationForm

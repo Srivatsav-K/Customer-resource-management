@@ -64,7 +64,7 @@ const serverErrorHelper = (errors) => {
     return fieldErrors
 }
 
-export const startCreateQuotation = (formData, history, resetForm) => {
+export const startCreateQuotation = (formData, resetForm, history) => {
     return (
         (dispatch) => {
             dispatch(loadingTrue())

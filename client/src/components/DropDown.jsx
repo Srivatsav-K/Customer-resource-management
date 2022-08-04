@@ -1,7 +1,7 @@
-import { FormControl, FormHelperText, InputLabel, OutlinedInput, Select } from "@mui/material";
+import { FormControl, FormHelperText, Input, InputLabel, OutlinedInput, Select } from "@mui/material";
 
 const DropDown = (props) => {
-    const { name, label, value, onChange, error, helperText, children, required } = props
+    const { name, label, value, onChange, error, helperText, children, variant, required } = props
 
     const ITEM_HEIGHT = 30;
     const ITEM_PADDING_TOP = 8;
@@ -23,7 +23,7 @@ const DropDown = (props) => {
                 name={name}
                 labelId={label}
                 size='small'
-                input={<OutlinedInput label={label} />}
+                input={(variant === 'standard') ? (<Input label={label} />) : (<OutlinedInput label={label} />)}
                 value={value}
                 onChange={onChange}
                 error={error}

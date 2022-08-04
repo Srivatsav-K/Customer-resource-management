@@ -81,8 +81,7 @@ export const startPostCompanyDetails = (formData, resetForm, setErrors) => {
                         setErrors(serverErrorHelper(result.errors))
                     } else {
                         dispatch(postCompanyDetails(result))
-                        resetForm()
-                        toast.success('contact created!')
+                        toast.success('company details updated!')
                     }
                 })
                 .catch((err) => {

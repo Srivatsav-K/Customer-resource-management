@@ -53,12 +53,8 @@ const orderSchema = new Schema({
     date: {
         type: Date,
         required: [true, 'Issue date is required!']
-    },
-    expiryDate: {
-        type: Date,
-        required: [true, 'Expiry date is required!']
     },////////////
-    expectedDeliveryDate: {
+    estimatedDeliveryDate: {
         type: Date
     },
     enquiry: {

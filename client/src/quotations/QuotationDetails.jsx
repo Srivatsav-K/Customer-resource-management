@@ -21,7 +21,7 @@ const QuotationDetails = (props) => {
         })
     }, [dispatch, path])
 
-    const handleSubmission = (formData, resetForm, setErrors) => {
+    const handleSubmission = () => {
         toast.error('Quotations cant be updated!')
     }
 

@@ -26,7 +26,7 @@ const ItemsTable = (props) => {
                     <TableHead>
                         <TableRow sx={{ backgroundColor: 'primary.light' }}>
                             <TableCell sx={{ color: 'white' }} align='left'>S.No</TableCell>
-                            <TableCell sx={{ color: 'white' }}>Description</TableCell>
+                            <TableCell sx={{ color: 'white' }}>Product</TableCell>
                             <TableCell sx={{ color: 'white' }} align='right'>Quantity</TableCell>
                             <TableCell sx={{ color: 'white' }} align='right'>Unit Price</TableCell>
                             <TableCell sx={{ color: 'white' }} align='right'>Amount</TableCell>
@@ -50,7 +50,7 @@ const ItemsTable = (props) => {
 
                                     <TableCell>
                                         <TextField
-                                            label='Select Product'
+                                            label='Product'
                                             required
                                             name='product'
                                             value={ele.product}

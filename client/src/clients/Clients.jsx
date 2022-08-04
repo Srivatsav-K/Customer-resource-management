@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 //--------------------------------------------------------------------------------------
 import TableComponent from '../components/TableComponent'
 //--------------------------------------------------------------------------------------
@@ -95,7 +96,7 @@ const Clients = () => {
                 <Typography variant='h3' fontWeight='400' color='primary'>Clients</Typography>
 
                 <Stack justifyContent='center'>
-                    <Button href='/user/add-client' variant='contained' size='small' >+ Add Client</Button>
+                    <Button component={Link} to='/user/add-client' variant='contained' size='small' >+ Add Client</Button>
                 </Stack>
             </Grid>
             {/* --------------------------------------------------------------------------------------- */}

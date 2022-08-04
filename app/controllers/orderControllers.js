@@ -5,7 +5,7 @@ const orderControllers = {}
 orderControllers.list = (req, res) => {
     const userId = req.user._id
 
-    Order.find({ user: userId })
+    Order.find({ user: userId }).populate('client', ['name']).populate('contact', ['name'])
         .then((orders) => {
             res.json(orders)
         })

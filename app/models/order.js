@@ -5,10 +5,9 @@ const commentsSchema = require('./comments')
 const { Schema } = mongoose
 
 const orderSchema = new Schema({
-    contact: {
-        type: Schema.Types.ObjectId,
-        ref: 'Contact',
-        required: [true, '{PATH} required!']
+    title: {
+        type: String,
+        required: [true, '{PATH} is required!']
     },
     items: {
         type: [itemSchema],
@@ -21,6 +20,20 @@ const orderSchema = new Schema({
                 return 'items cannot be empty'
             }
         }
+    },
+    subTotal: {
+        type: Number,
+        required: true,
+        min: [0, 'price should be greater or equal to 0'],
+    },
+    gstRate: {
+        type: Number,
+        required: true,
+        min: [0, `GST can't be less than 0`]
+    },
+    gstAmount: {
+        type: Number,
+        requried: [true, 'Gst amount is requried!']
     },
     total: {
         type: Number,
@@ -38,8 +51,13 @@ const orderSchema = new Schema({
         default: 'pending',
         enum: ['pending', 'received']
     },
-    comments: {
-        type: [commentsSchema],
+    date: {
+        type: Date,
+        required: [true, 'Issue date is required!']
+    },
+    expiryDate: {
+        type: Date,
+        required: [true, 'Expiry date is required!']
     },
     closedDate: {
         type: Date
@@ -47,9 +65,22 @@ const orderSchema = new Schema({
     expectedDeliveryDate: {
         type: Date
     },
+    comments: {
+        type: [commentsSchema],
+    },
     enquiry: {
         type: Schema.Types.ObjectId,
         ref: "Enquiry"
+    },
+    contact: {
+        type: Schema.Types.ObjectId,
+        ref: 'Contact',
+        required: [true, '{PATH} required!']
+    },
+    client: {
+        type: Schema.Types.ObjectId,
+        required: [true, '{PATH} is required!'],
+        ref: 'Client'
     },
     user: {
         type: Schema.Types.ObjectId,

@@ -1,16 +1,12 @@
 import { useMemo, useState } from "react";
 import { useSelector } from "react-redux"
-
+import { Link } from 'react-router-dom'
 //--------------------------------------------------------------------------------------
-
 import ProductListing from "./ProductListing";
-
 //--------------------------------------------------------------------------------------
-
 import { Button, Grid, InputAdornment, MenuItem, Stack, TextField, Typography } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
-
 //--------------------------------------------------------------------------------------
 
 const Products = () => {
@@ -72,7 +68,7 @@ const Products = () => {
                 <Typography variant='h3' fontWeight='400' color='primary'>Products - {products.length}</Typography>
 
                 <Stack justifyContent='center'>
-                    <Button href='/user/add-product' variant='contained' size='small' >+ Add Product</Button>
+                    <Button component={Link} to='/user/add-product' variant='contained' size='small' >+ Add Product</Button>
                 </Stack>
             </Grid>
 

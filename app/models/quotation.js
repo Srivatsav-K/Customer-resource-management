@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { pre } = require('./comments')
 const itemSchema = require('./item')
 
 const { Schema } = mongoose

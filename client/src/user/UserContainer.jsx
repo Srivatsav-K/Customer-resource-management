@@ -32,11 +32,15 @@ import Quotations from '../quotations/Quotations'
 import CreateQuotation from '../quotations/CreateQuotation'
 import { startGetQuotations } from '../actions/quotationActions'
 import QuotationDetails from '../quotations/QuotationDetails'
+import Orders from '../orders/Orders'
+import CreateOrder from '../orders/CreateOrder'
+import OrderDetails from '../orders/OrderDetails'
 
 import Account from '../account/Account'
 import { startGetCompanyDetails } from '../actions/accountActions'
 import TasksContainer from '../tasks/TasksContainer'
 import { startGetTasks } from '../actions/taskActions'
+import { startGetOrders } from '../actions/orderActions'
 
 const UserContainer = () => {
     const user = useSelector((state) => state.user.data)
@@ -53,9 +57,12 @@ const UserContainer = () => {
             if (user.role === 'admin') {
                 dispatch(startGetEnquiries('enquiries/all'))
                 dispatch(startGetQuotations('quotations/all'))
+                dispatch(startGetOrders('orders/all'))
             } else {
                 dispatch(startGetEnquiries('enquiries'))
                 dispatch(startGetQuotations('quotations'))
+                dispatch(startGetQuotations('quotations'))
+                dispatch(startGetOrders('/orders'))
             }
         }
     }, [dispatch, user])
@@ -89,6 +96,10 @@ const UserContainer = () => {
                 <PrivateRoute path='/user/quotations' component={Quotations} exact />
                 <PrivateRoute path='/user/new-quotation' component={CreateQuotation} />
                 <PrivateRoute path='/user/quotations/:id' component={QuotationDetails} />
+
+                <PrivateRoute path='/user/orders' component={Orders} exact />
+                <PrivateRoute path='/user/new-order' component={CreateOrder} />
+                <PrivateRoute path='/user/orders/:id' component={OrderDetails} />
 
                 <PrivateRoute path='/user/tasks' component={TasksContainer} exact />
 

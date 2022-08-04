@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
-//--------------------------------------------------------------------------------------
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+//--------------------------------------------------------------------------------------
 import TableComponent from '../components/TableComponent'
 //--------------------------------------------------------------------------------------
 import { Button, Grid, InputAdornment, MenuItem, Stack, TextField, Typography } from '@mui/material'
@@ -68,7 +69,7 @@ const Enquiries = () => {
                 <Typography variant='h3' fontWeight='400' color='primary'>Enquiries - {enquiries.length}</Typography>
 
                 <Stack justifyContent='center'>
-                    <Button href='/user/new-enquiry' variant='contained' size='small' >+ New enquiry</Button>
+                    <Button component={Link} to='/user/new-enquiry' variant='contained' size='small' >+ New enquiry</Button>
                 </Stack>
             </Grid>
 

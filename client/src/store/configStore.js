@@ -7,6 +7,7 @@ import accountReducer from '../reducers/accountReducer'
 import clientsReducer from '../reducers/clientsReducer'
 import contactsReducer from '../reducers/contactsReducer'
 import enquiriesReducer from '../reducers/enquiriesReducer'
+import ordersReducer from '../reducers/ordersReducer'
 import productsReducer from '../reducers/productsReducer'
 import quotationsReducer from '../reducers/quotationsReducer'
 import sidebarReducer from '../reducers/sidebarReducer'
@@ -25,7 +26,8 @@ const configStore = () => {
         products: productsReducer,
         quotations: quotationsReducer,
         account: accountReducer,
-        tasks: tasksReducer
+        tasks: tasksReducer,
+        orders: ordersReducer
     }), applyMiddleware(thunk))
 
     return store

@@ -1,18 +1,23 @@
 import { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+
 //----------------------------------------------------------------------------------------------------
+
 import TableComponent from '../components/TableComponent'
+
 //----------------------------------------------------------------------------------------------------
+
 import { Button, Grid, InputAdornment, MenuItem, Stack, TextField, Typography } from '@mui/material'
 import SortIcon from '@mui/icons-material/Sort';
 import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
+
 //----------------------------------------------------------------------------------------------------
 
-const Quotations = () => {
+const Orders = () => {
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('')
-    const [quotations, user] = useSelector((state) => [state.quotations.data, state.user.data])
+    const [orders, user] = useSelector((state) => [state.orders.data, state.user.data])
 
     const columns = [
         { heading: 'Title', value: 'title' },
@@ -26,7 +31,7 @@ const Quotations = () => {
     const adminColumns = [...columns, { heading: 'Created By', value: 'user.username' }]
 
     const filteredData = useMemo(() => {
-        const result = quotations.filter((ele) => {
+        const result = orders.filter((ele) => {
             return (
                 ele.title.toLowerCase().includes(search.toLowerCase()) ||
                 ele.client.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -47,7 +52,7 @@ const Quotations = () => {
             }
         })
         return result
-    }, [quotations, search, sort])
+    }, [orders, search, sort])
 
 
     const handleChange = (e) => {
@@ -64,10 +69,10 @@ const Quotations = () => {
         <Grid container spacing={3} >
 
             <Grid item container justifyContent='space-between'>
-                <Typography variant='h3' fontWeight='400' color='primary'>Quotations - {quotations.length}</Typography>
+                <Typography variant='h3' fontWeight='400' color='primary'>Orders - {orders.length}</Typography>
 
                 <Stack justifyContent='center'>
-                    <Button component={Link} to='/user/new-quotation' variant='contained' size='small' >+ New Quotation</Button>
+                    <Button component={Link} to='/user/new-order' variant='contained' size='small' >+ New order</Button>
                 </Stack>
             </Grid>
 
@@ -118,9 +123,9 @@ const Quotations = () => {
             </Grid>
 
             <Grid item xs={12}>
-                {(quotations.length === 0) ? (
+                {(orders.length === 0) ? (
                     <Typography color='GrayText' textAlign='center' variant="h5">
-                        No Quotations present
+                        No Orders present
                     </Typography>
                 ) : (
                     <TableComponent columns={user.role === 'admin' ? adminColumns : columns} data={filteredData} />
@@ -132,4 +137,4 @@ const Quotations = () => {
     )
 }
 
-export default Quotations
+export default Orders

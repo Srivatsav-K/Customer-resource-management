@@ -19,6 +19,8 @@ const OrderForm = (props) => {
         enquiry,
         client,
         contact,
+        status,
+        paymentStatus,
         date: quoteDate,
         expiryDate: quoteExpiry,
         expectedDeliveryDate: orderDeliveryDate,
@@ -60,7 +62,9 @@ const OrderForm = (props) => {
             title: title || '',
             enquiry: enquiry || '',
             contact: (contact && contact._id) || '',
-            client: (client && client._id) || ''
+            client: (client && client._id) || '',
+            status: status || 'placed',
+            paymentStatus: paymentStatus || 'pending'
         },
         onSubmit: (formData, { resetForm }) => {
             if (items.length === 0) {
@@ -229,7 +233,7 @@ const OrderForm = (props) => {
                             </Stack>
                         </Stack>
 
-                        {/* Dates */}
+                        {/* Dates & status */}
                         <Stack spacing={1} >
                             <DatePicker
                                 inputFormat="dd-MM-yyyy"
@@ -249,7 +253,6 @@ const OrderForm = (props) => {
                             />
 
                             <DatePicker
-                                name='dateeeeeeeeee'
                                 inputFormat="dd-MM-yyyy"
                                 label='Delivery date'
                                 value={expectedDeliveryDate}
@@ -257,6 +260,39 @@ const OrderForm = (props) => {
                                 minDate={Date.now()}
                                 renderInput={(params) => <TextField size='small' error={false} required variant='standard'  {...params} />}
                             />
+
+                            <TextField
+                                name='status'
+                                label='order status'
+                                select
+                                size='small'
+                                variant='standard'
+                                value={formik.values.status}
+                                onChange={formik.handleChange}
+                                required
+                                error={formik.touched.status && Boolean(formik.errors.status)}
+                                helperText={formik.touched.status && formik.errors.status}
+                            >
+                                <MenuItem value='placed'>placed</MenuItem>
+                                <MenuItem value='delivered'>delivered</MenuItem>
+                                <MenuItem value='cancelled'>cancelled</MenuItem>
+                            </TextField>
+
+                            <TextField
+                                name='paymentStatus'
+                                label='payment status'
+                                select
+                                size='small'
+                                variant='standard'
+                                value={formik.values.paymentStatus}
+                                onChange={formik.handleChange}
+                                required
+                                error={formik.touched.paymentStatus && Boolean(formik.errors.paymentStatus)}
+                                helperText={formik.touched.paymentStatus && formik.errors.paymentStatus}
+                            >
+                                <MenuItem value='pending'>pending</MenuItem>
+                                <MenuItem value='received'>received</MenuItem>
+                            </TextField>
 
                         </Stack>
                     </Stack>

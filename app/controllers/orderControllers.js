@@ -15,7 +15,7 @@ orderControllers.list = (req, res) => {
 }
 
 orderControllers.listAll = (req, res) => {
-    Order.find()
+    Order.find().populate('client', ['name']).populate('contact', ['name']).populate('user', ['username'])
         .then((orders) => {
             res.json(orders)
         })

@@ -14,10 +14,12 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from 'react-redux';
 //-----------------------------------------------------------------------
 
 const App = () => {
-
+    const state = useSelector((state) => state)
+    console.log(state)
     return (
         <div style={{ marginTop: '6rem' }}>
             <NavBar />

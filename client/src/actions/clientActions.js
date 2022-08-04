@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
+//--------------------------------------------------------------------------
 import { startGetContacts } from './contactActions'
 import { startGetEnquiries } from './enquiryActions'
 import { startGetQuotations } from './quotationActions'
@@ -137,8 +138,11 @@ export const startUpdateClientDetails = (_id, formData, setErrors, history) => {
                         setErrors(serverErrorHelper(result.errors))
                     } else {
                         dispatch(updateClientDetails(result))
-                        toast.success('Updated successfully!')
-                        history.push('/user/clients')
+                        if (history) {
+                            toast.success('Updated successfully!')
+                            history.push('/user/clients')
+                        }
+
                     }
                 })
                 .catch((err) => {

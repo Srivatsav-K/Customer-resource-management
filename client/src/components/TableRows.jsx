@@ -37,7 +37,7 @@ const TableRows = (props) => {
                         const splitColFieldValue = colField.value.split('.')
                         return (
                             <TableCell key={i}>
-                                {(dataField[splitColFieldValue[0]]) ? (
+                                {(dataField[splitColFieldValue[0]] !== null) ? (
                                     dataField[splitColFieldValue[0]][splitColFieldValue[1]]
                                 ) : (
                                     'Deleted'
@@ -48,7 +48,7 @@ const TableRows = (props) => {
                     } else {
                         return (
                             <TableCell key={i} sx={{ maxWidth: 200, wordWrap: 'break-word' }}>
-                                {(dataField[colField.value]) ? (
+                                {(dataField[colField.value] !== null) ? (
                                     dataField[colField.value].toString()
                                 ) : (
                                     'Deleted'

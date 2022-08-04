@@ -1,9 +1,14 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+//--------------------------------------------------------------------------
 import { startGetClients } from '../actions/clientActions'
 import { startGetContacts } from '../actions/contactActions'
 import { startGetEnquiries } from '../actions/enquiryActions'
+import { startGetProducts } from '../actions/productActions'
+import { startGetQuotations } from '../actions/quotationActions'
+import { startGetOrders } from '../actions/orderActions'
+import { startGetTasks } from '../actions/taskActions'
+import { startGetCompanyDetails } from '../actions/accountActions'
 
 import PrivateRoute from '../helper/PrivateRoute'
 
@@ -13,34 +18,33 @@ import Dashboard from './Dashboard'
 
 import Clients from '../clients/Clients'
 import AddClient from '../clients/AddClient'
+import ClientDetails from '../clients/ClientDetails'
 
 import Contacts from '../contacts/Contacts'
 import AddContact from '../contacts/AddContact'
+import ContactDetails from '../contacts/ContactDetails'
 
 import Enquiries from '../enquiries/Enquiries'
 import NewEnquiry from '../enquiries/NewEnquiry'
-
-import { Grid } from '@mui/material'
-import ClientDetails from '../clients/ClientDetails'
-import ContactDetails from '../contacts/ContactDetails'
 import EnquiryDetails from '../enquiries/EnquiryDetails'
-import { startGetProducts } from '../actions/productActions'
+
 import Products from '../products/Products'
 import AddProduct from '../products/AddProduct'
 import ProductDetails from '../products/ProductDetails'
+
 import Quotations from '../quotations/Quotations'
 import CreateQuotation from '../quotations/CreateQuotation'
-import { startGetQuotations } from '../actions/quotationActions'
 import QuotationDetails from '../quotations/QuotationDetails'
+
 import Orders from '../orders/Orders'
 import CreateOrder from '../orders/CreateOrder'
 import OrderDetails from '../orders/OrderDetails'
 
-import Account from '../account/Account'
-import { startGetCompanyDetails } from '../actions/accountActions'
 import TasksContainer from '../tasks/TasksContainer'
-import { startGetTasks } from '../actions/taskActions'
-import { startGetOrders } from '../actions/orderActions'
+import Account from '../account/Account'
+//--------------------------------------------------------------------------
+import { Grid } from '@mui/material'
+//--------------------------------------------------------------------------
 
 const UserContainer = () => {
     const user = useSelector((state) => state.user.data)
@@ -102,8 +106,6 @@ const UserContainer = () => {
                 <PrivateRoute path='/user/orders/:id' component={OrderDetails} />
 
                 <PrivateRoute path='/user/tasks' component={TasksContainer} exact />
-
-
             </Grid>
         </Grid>
     )

@@ -1,6 +1,10 @@
 import axios from "axios"
 import { toast } from 'react-toastify'
 //--------------------------------------------------------------------------
+import { startUpdateClientDetails } from "./clientActions"
+import { startUpdateContactDetails } from "./contactActions"
+import { startUpdateEnquiryDetails } from "./enquiryActions"
+//--------------------------------------------------------------------------
 export const ORDERS_LOADING_TRUE = 'ORDERS_LOADING_TRUE'
 export const ORDERS_LOADING_FALSE = 'ORDERS_LOADING_FALSE'
 export const GET_ORDERS = 'GET_ORDERS'
@@ -83,7 +87,16 @@ export const startCreateOrder = (formData, resetForm, history) => {
                         toast.error(serverErrorHelper(result.errors))
                     } else {
                         dispatch(createOrder(result))
+                        dispatch(startUpdateEnquiryDetails(result.enquiry, { status: 'orderplaced' }))
                         resetForm()
+                        if (result.paymentStatus === 'received') {
+                            if (result.client._id) {
+                                dispatch(startUpdateClientDetails(result.client._id, { customer: true }))
+                            }
+                            if (result.contact._id) {
+                                dispatch(startUpdateContactDetails(result.contact._id, { customer: true }))
+                            }
+                        }
                         history.push('/user/orders')
                         toast.success('order created!')
                     }
@@ -136,6 +149,21 @@ export const startUpdateOrderDetails = (_id, formData, resetForm, history) => {
                         toast.error(result.errors.message)
                     } else {
                         dispatch(updateOrderDetails(result))
+                        if (result.paymentStatus === 'received') {
+                            if (result.client._id) {
+                                dispatch(startUpdateClientDetails(result.client._id, { customer: true }))
+                            }
+                            if (result.contact._id) {
+                                dispatch(startUpdateContactDetails(result.contact._id, { customer: true }))
+                            }
+                        } else {
+                            if (result.client._id) {
+                                dispatch(startUpdateClientDetails(result.client._id, { customer: false }))
+                            }
+                            if (result.contact._id) {
+                                dispatch(startUpdateContactDetails(result.contact._id, { customer: false }))
+                            }
+                        }
                         toast.success('Updated successfully!')
                         history.push('/user/orders')
                     }

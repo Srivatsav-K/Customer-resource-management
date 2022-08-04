@@ -1,5 +1,6 @@
 import axios from "axios"
 import { toast } from 'react-toastify'
+//--------------------------------------------------------------------------
 import { startGetQuotations } from "./quotationActions"
 //---------------------------------------------------------------------------------------
 export const ENQUIRIES_LOADING_TRUE = 'ENQUIRIES_LOADING_TRUE'
@@ -133,8 +134,10 @@ export const startUpdateEnquiryDetails = (_id, formData, setErrors, history) => 
                         setErrors(serverErrorHelper(result.errors))
                     } else {
                         dispatch(updateEnquiryDetails(result))
-                        toast.success('Updated successfully!')
-                        history.push('/user/enquiries')
+                        if (history) {
+                            history.push('/user/enquiries')
+                            toast.success('Updated successfully!')
+                        }
                     }
                 })
                 .catch((err) => {

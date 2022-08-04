@@ -1,5 +1,4 @@
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, TextField, MenuItem, Box, InputAdornment, IconButton } from '@mui/material'
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 
@@ -90,12 +89,12 @@ const ItemsTable = (props) => {
                                             size='small'
                                             InputProps={{
                                                 sx: {
-                                                    maxWidth: '100px'
+                                                    maxWidth: '100px',
                                                 },
                                                 inputProps: { min: 0 },
                                                 startAdornment: (
                                                     <InputAdornment position='start'>
-                                                        <CurrencyRupeeIcon fontSize='small' />
+                                                        ₹
                                                     </InputAdornment>
                                                 )
                                             }}
@@ -118,7 +117,7 @@ const ItemsTable = (props) => {
                                                 inputProps: { min: 0 },
                                                 startAdornment: (
                                                     <InputAdornment position='start'>
-                                                        <CurrencyRupeeIcon fontSize='small' />
+                                                        ₹
                                                     </InputAdornment>
                                                 )
                                             }}

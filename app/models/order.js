@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const itemSchema = require('./item')
-const commentsSchema = require('./comments')
 
 const { Schema } = mongoose
 
@@ -40,12 +39,12 @@ const orderSchema = new Schema({
         required: true,
         min: [0, 'price should be greater or equal to 0'],
         default: 0
-    },
+    },///////
     status: {
         type: String,
         default: 'placed',
-        enum: ['placed', 'cancelled'],
-    },
+        enum: ['placed', 'delivered', 'cancelled'],
+    },//////
     paymentStatus: {
         type: String,
         default: 'pending',
@@ -58,15 +57,9 @@ const orderSchema = new Schema({
     expiryDate: {
         type: Date,
         required: [true, 'Expiry date is required!']
-    },
-    closedDate: {
-        type: Date
-    },
+    },////////////
     expectedDeliveryDate: {
         type: Date
-    },
-    comments: {
-        type: [commentsSchema],
     },
     enquiry: {
         type: Schema.Types.ObjectId,

@@ -20,8 +20,8 @@ const CreateQuotation = () => {
     }
 
     return (
-        <Grid container justifyContent='center'>
-            <Grid item xs>
+        <Grid container alignItems='center' direction='column'>
+            <Grid item >
                 <QuotationForm handleSubmission={handleSubmission} />
             </Grid>
         </Grid>

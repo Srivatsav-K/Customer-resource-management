@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 //--------------------------------------------------------------------------------------
-import { Button, FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, OutlinedInput, Paper, Select, Stack, TextField } from '@mui/material'
+import DropDown from '../components/DropDown'
+//--------------------------------------------------------------------------------------
+import { Button, FormHelperText, Grid, IconButton, MenuItem, Paper, Stack, TextField } from '@mui/material'
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 //--------------------------------------------------------------------------------------
 
@@ -13,16 +15,6 @@ const EnquiryForm = (props) => {
     const contacts = useSelector((state) => state.contacts.data)
 
     const gridSplit = 6
-    const ITEM_HEIGHT = 30;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 170,
-            },
-        },
-    };
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -102,28 +94,20 @@ const EnquiryForm = (props) => {
                 </Grid>
 
                 <Grid item sm={gridSplit} container justifyContent='center' >
-                    <FormControl>
-                        <InputLabel id="contact-label">contact</InputLabel>
-                        <Select
-                            name='contact'
-                            inputProps={{ sx: { width: 170 } }}
-                            labelId="contact-label"
-                            size='small'
-                            value={formik.values.contact}
-                            onChange={formik.handleChange}
-                            input={<OutlinedInput label="contact" />}
-                            error={formik.touched.contact && Boolean(formik.errors.contact)}
-                            MenuProps={MenuProps}
-                        >
-                            {contacts.map((ele) => {
-                                return (
-                                    <MenuItem value={ele._id} key={ele._id} >{ele.name}</MenuItem>
-                                )
-                            })}
-
-                        </Select>
-                        {formik.touched.contact && Boolean(formik.errors.contact) && <FormHelperText error>{formik.errors.contact}</FormHelperText>}
-                    </FormControl>
+                    <DropDown
+                        name='contact'
+                        label='contact'
+                        value={formik.values.contact}
+                        onChange={formik.handleChange}
+                        error={formik.touched.contact && Boolean(formik.errors.contact)}
+                        helperText={formik.touched.contact && formik.errors.contact}
+                    >
+                        {contacts.map((ele) => {
+                            return (
+                                <MenuItem value={ele._id} key={ele._id} >{ele.name}</MenuItem>
+                            )
+                        })}
+                    </DropDown>
                 </Grid>
 
                 <Grid item sm={gridSplit} container justifyContent='center' >

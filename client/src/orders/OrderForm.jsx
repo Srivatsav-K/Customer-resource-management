@@ -12,7 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Button, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material'
 //----------------------------------------------------------------------------------------------------
 
-const QuotationForm = (props) => {
+const OrderForm = (props) => {
     const {
         handleSubmission,
         title,
@@ -21,12 +21,14 @@ const QuotationForm = (props) => {
         contact,
         date: quoteDate,
         expiryDate: quoteExpiry,
+        expectedDeliveryDate: orderDeliveryDate,
         items: quoteItems
     } = props
 
 
     const [date, setDate] = useState(quoteDate || Date.now())
     const [expiryDate, setExpiryDate] = useState(quoteExpiry || null)
+    const [expectedDeliveryDate, setExpectedDeliveryDate] = useState(orderDeliveryDate || null)
     const [items, setItems] = useState(quoteItems || [])
     const [gstRate, setGstRate] = useState(5)
 
@@ -83,6 +85,9 @@ const QuotationForm = (props) => {
     }
     const handleExpiryDateChange = (e) => {
         setExpiryDate(e)
+    }
+    const handleDeliveryDateChange = (e) => {
+        setExpectedDeliveryDate(e)
     }
 
     // Table -------------------------------------------------------------------------
@@ -151,7 +156,7 @@ const QuotationForm = (props) => {
                                 name='title'
                                 required
                                 variant='standard'
-                                label='quotation title'
+                                label='order title'
                                 value={formik.values.title}
                                 onChange={formik.handleChange}
                                 error={formik.touched.title && Boolean(formik.errors.title)}
@@ -160,7 +165,7 @@ const QuotationForm = (props) => {
                             <ContactInfo source={company} user={user} />
                         </Stack>
 
-                        <Typography color='GrayText' variant='h3'>Quotation</Typography>
+                        <Typography color='GrayText' variant='h3'>Order</Typography>
                     </Stack>
 
 
@@ -242,6 +247,17 @@ const QuotationForm = (props) => {
                                 minDate={Date.now()}
                                 renderInput={(params) => <TextField size='small' error={false} required variant='standard'  {...params} />}
                             />
+
+                            <DatePicker
+                                name='dateeeeeeeeee'
+                                inputFormat="dd-MM-yyyy"
+                                label='Delivery date'
+                                value={expectedDeliveryDate}
+                                onChange={handleDeliveryDateChange}
+                                minDate={Date.now()}
+                                renderInput={(params) => <TextField size='small' error={false} required variant='standard'  {...params} />}
+                            />
+
                         </Stack>
                     </Stack>
 
@@ -271,4 +287,4 @@ const QuotationForm = (props) => {
     )
 }
 
-export default withRouter(QuotationForm)
+export default withRouter(OrderForm)

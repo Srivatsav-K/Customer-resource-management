@@ -2,7 +2,9 @@ import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 //--------------------------------------------------------------------------------------
-import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material'
+import DropDown from '../components/DropDown'
+//--------------------------------------------------------------------------------------
+import { Button, Checkbox, FormControlLabel, Grid, MenuItem, TextField } from '@mui/material'
 //--------------------------------------------------------------------------------------
 
 const ContactForm = (props) => {
@@ -11,16 +13,6 @@ const ContactForm = (props) => {
     const clients = useSelector((state) => state.clients.data)
 
     const gridSplit = 6
-    const ITEM_HEIGHT = 30;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 170,
-            },
-        },
-    };
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -135,26 +127,18 @@ const ContactForm = (props) => {
                 </Grid>
 
                 <Grid item sm={gridSplit} container justifyContent='center'>
-                    <FormControl>
-                        <InputLabel id="client-label">client</InputLabel>
-                        <Select
-                            name='client'
-                            inputProps={{ sx: { width: 170 } }}
-                            labelId="client-label"
-                            size='small'
-                            value={formik.values.client}
-                            onChange={formik.handleChange}
-                            input={<OutlinedInput label="client" />}
-                            error={formik.touched.client && Boolean(formik.errors.client)}
-                            MenuProps={MenuProps}
-                        >
-                            {clients.map((ele) => {
-                                return <MenuItem value={ele._id} key={ele._id} >{ele.name}</MenuItem>
-                            })}
-
-                        </Select>
-                        {formik.touched.client && Boolean(formik.errors.client) && <FormHelperText error>{formik.errors.client}</FormHelperText>}
-                    </FormControl>
+                    <DropDown
+                        name='client'
+                        label='client'
+                        value={formik.values.client}
+                        onChange={formik.handleChange}
+                        error={formik.touched.client && Boolean(formik.errors.client)}
+                        helperText={formik.touched.client && formik.errors.client}
+                    >
+                        {clients.map((ele) => {
+                            return <MenuItem value={ele._id} key={ele._id} >{ele.name}</MenuItem>
+                        })}
+                    </DropDown>
                 </Grid>
 
                 <Grid item sm={gridSplit} container justifyContent='center'>

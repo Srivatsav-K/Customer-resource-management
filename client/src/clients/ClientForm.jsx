@@ -4,7 +4,9 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import uniqBy from 'lodash/uniqBy'
 //--------------------------------------------------------------------------------------
-import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material'
+import DropDown from '../components/DropDown'
+//--------------------------------------------------------------------------------------
+import { Button, Checkbox, FormControlLabel, Grid, MenuItem, TextField } from '@mui/material'
 //--------------------------------------------------------------------------------------
 
 const ClientForm = (props) => {
@@ -15,16 +17,6 @@ const ClientForm = (props) => {
     const clients = useSelector((state) => state.clients.data)
 
     const gridSplit = 6
-    const ITEM_HEIGHT = 30;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 170,
-            },
-        },
-    };
 
     const toggleCreateSector = () => {
         setCreateSector(!createSector)
@@ -138,26 +130,18 @@ const ClientForm = (props) => {
 
                         ) : (
 
-                            <FormControl>
-                                <InputLabel id="sector-label">Sector</InputLabel>
-                                <Select
-                                    name='sector'
-                                    inputProps={{ sx: { width: 170 } }}
-                                    labelId="sector-label"
-                                    size='small'
-                                    value={formik.values.sector}
-                                    onChange={formik.handleChange}
-                                    input={<OutlinedInput label="sector" />}
-                                    error={formik.touched.sector && Boolean(formik.errors.sector)}
-                                    MenuProps={MenuProps}
-                                >
-                                    {uniqBy(clients, 'sector').map((ele, i) => {
-                                        return <MenuItem key={i} value={ele.sector} >{ele.sector}</MenuItem>
-                                    })}
-
-                                </Select>
-                                {formik.touched.sector && Boolean(formik.errors.sector) && <FormHelperText error>{formik.errors.sector}</FormHelperText>}
-                            </FormControl>
+                            <DropDown
+                                name='sector'
+                                label='sector'
+                                value={formik.values.sector}
+                                onChange={formik.handleChange}
+                                error={formik.touched.sector && Boolean(formik.errors.sector)}
+                                helperText={formik.touched.sector && formik.errors.sector}
+                            >
+                                {uniqBy(clients, 'sector').map((ele, i) => {
+                                    return <MenuItem key={i} value={ele.sector} >{ele.sector}</MenuItem>
+                                })}
+                            </DropDown>
                         )}
                     </Grid>
 

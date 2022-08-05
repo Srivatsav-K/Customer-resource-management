@@ -12,20 +12,16 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
+//--------------------------------------------------------------------------------------------------------
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from 'react-redux';
 //-----------------------------------------------------------------------
 
 const App = () => {
-    const state = useSelector((state) => state)
-    console.log(state)
     return (
         <div style={{ marginTop: '6rem' }}>
             <NavBar />
 
             <ToastContainer autoClose={500} position='top-center' theme='colored' hideProgressBar={true} />
-
 
             <Route path='/' component={Home} exact />
             <Route path='/login' component={Login} exact />

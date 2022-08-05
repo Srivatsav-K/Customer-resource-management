@@ -108,7 +108,7 @@ const Login = (props) => {
                             />
 
                             {user.loginErrors && <FormHelperText error>{user.loginErrors.errors}</FormHelperText>}
-
+                            <FormHelperText>Admin - user1@gmail.com/Secret@123</FormHelperText>
                             <Button type='submit' variant='contained'>
                                 Log in
                             </Button>

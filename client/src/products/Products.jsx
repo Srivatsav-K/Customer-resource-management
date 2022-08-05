@@ -13,7 +13,7 @@ const Products = () => {
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('')
 
-    const products = useSelector((state) => state.products.data)
+    const [products, user] = useSelector((state) => [state.products.data, state.user.data])
 
     const filteredData = useMemo(() => {
         const result = products.filter((ele) => {
@@ -67,9 +67,13 @@ const Products = () => {
             <Grid item container justifyContent='space-between'>
                 <Typography variant='h3' fontWeight='400' color='primary'>Products - {products.length}</Typography>
 
-                <Stack justifyContent='center'>
-                    <Button component={Link} to='/user/add-product' variant='contained' size='small' >+ Add Product</Button>
-                </Stack>
+                {
+                    (user.role && user.role === 'admin') && (
+                        <Stack justifyContent='center'>
+                            <Button component={Link} to='/user/add-product' variant='contained' size='small' >+ Add Product</Button>
+                        </Stack>
+                    )
+                }
             </Grid>
 
             <Grid item container spacing={2}>

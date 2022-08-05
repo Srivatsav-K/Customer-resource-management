@@ -70,6 +70,7 @@ export const startGetUserData = (token, history) => {
                 .then((response) => {
                     const result = response.data
                     if (result.errors) {
+                        console.log(result.errors, history)
                         toast.error(result.errors.message)
                         dispatch(userLoggedOut())
                         history.push('/')
@@ -80,6 +81,9 @@ export const startGetUserData = (token, history) => {
                 })
                 .catch((err) => {
                     toast.error(err.message)
+                    dispatch(userLoggedOut())
+                    history.push('/')
+                    localStorage.clear()
                 })
         }
     )

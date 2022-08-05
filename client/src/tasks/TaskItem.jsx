@@ -73,7 +73,7 @@ const TaskItem = (props) => {
                     </Grid>
 
                     <Grid item xs={8}>
-                        <Typography>
+                        <Typography sx={{ wordWrap: 'break-word' }}>
                             {task}
                         </Typography>
                     </Grid>

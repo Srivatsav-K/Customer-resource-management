@@ -60,7 +60,13 @@ const ItemsTable = (props) => {
                                             fullWidth
                                         >
                                             {products.map((product) => {
-                                                return <MenuItem value={product._id} key={product._id}> {product.title} </MenuItem>
+                                                return (
+                                                    (product._id) ? (
+                                                        <MenuItem value={product._id} key={product._id}> {product.title} </MenuItem>
+                                                    ) : (
+                                                        <MenuItem value='Deleted'>Deleted</MenuItem>
+                                                    )
+                                                )
                                             })}
                                         </TextField>
                                     </TableCell>

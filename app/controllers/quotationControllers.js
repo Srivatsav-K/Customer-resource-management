@@ -26,9 +26,8 @@ quotationControllers.listAll = (req, res) => {
 }
 
 quotationControllers.show = (req, res) => {
-    const userId = req.user._id
     const id = req.params.id
-    Quotation.findOne({ _id: id, user: userId }).populate('client', ['name']).populate('contact', ['name']).populate('user', ['username'])
+    Quotation.findOne({ _id: id }).populate('client', ['name']).populate('contact', ['name']).populate('user', ['username'])
         .then((quotation) => {
             if (!quotation) {
                 res.json({ errors: 'Not found!' })
@@ -67,7 +66,6 @@ quotationControllers.create = (req, res) => {
 
 //admin only
 quotationControllers.destroy = (req, res) => {
-    const userId = req.user._id
     const id = req.params.id
 
     Quotation.findByIdAndDelete(id)

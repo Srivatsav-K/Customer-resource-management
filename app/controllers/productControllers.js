@@ -44,7 +44,7 @@ productsController.update = (req, res) => {
     const userId = req.user._id
     const id = req.params.id
     const body = req.body
-    Product.findOneAndUpdate({ _id: id, user: req.user._id }, body, { new: true, runValidators: true })
+    Product.findByIdAndUpdate(id, body, { new: true, runValidators: true })
         .then((product) => {
             if (!product) {
                 res.json({ errors: 'Not found!' })
@@ -59,7 +59,7 @@ productsController.update = (req, res) => {
 
 productsController.destory = (req, res) => {
     const id = req.params.id
-    Product.findOneAndDelete({ _id: id, user: req.user._id })
+    Product.findOneAndDelete({ _id: id })
         .then((product) => {
             if (!product) {
                 res.json({ errors: 'Not found!' })

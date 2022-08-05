@@ -63,7 +63,6 @@ contactControllers.update = (req, res) => {
 }
 
 contactControllers.destroy = async (req, res) => {
-    const userId = req.user._id
     const id = req.params.id
 
     try {
@@ -72,7 +71,7 @@ contactControllers.destroy = async (req, res) => {
             await Quotation.deleteMany({ enquiry: enquiry._id })
             await Enquiry.deleteMany({ contact: id })
         })
-        const deletedContact = await Contact.findOneAndDelete({ user: userId, _id: id })
+        const deletedContact = await Contact.findOneAndDelete({ _id: id })
         res.json(deletedContact)
     } catch (error) {
         res.json(error)

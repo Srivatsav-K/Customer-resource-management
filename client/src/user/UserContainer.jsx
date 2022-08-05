@@ -14,7 +14,7 @@ import PrivateRoute from '../helper/PrivateRoute'
 
 import SideBar from '../navigation/Sidebar'
 
-import Dashboard from './Dashboard'
+import Dashboard from '../dashboard/Dashboard'
 
 import Clients from '../clients/Clients'
 import AddClient from '../clients/AddClient'
@@ -66,7 +66,7 @@ const UserContainer = () => {
                 dispatch(startGetEnquiries('enquiries'))
                 dispatch(startGetQuotations('quotations'))
                 dispatch(startGetQuotations('quotations'))
-                dispatch(startGetOrders('/orders'))
+                dispatch(startGetOrders('orders'))
             }
         }
     }, [dispatch, user])

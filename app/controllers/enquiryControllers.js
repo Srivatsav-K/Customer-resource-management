@@ -34,10 +34,9 @@ enquiryControllers.listAll = (req, res) => {
 }
 
 enquiryControllers.show = (req, res) => {
-    const userId = req.user._id
     const id = req.params.id
 
-    Enquiry.findOne({ _id: id, user: userId }).populate({
+    Enquiry.findOne({ _id: id }).populate({
         path: 'contact', select: ['name', 'email', 'phone'],
         populate: { path: 'client', select: 'name' }
     }).populate('user', 'username')
@@ -99,12 +98,11 @@ enquiryControllers.update = (req, res) => {
 }
 
 enquiryControllers.destroy = async (req, res) => {
-    const userId = req.user._id
     const id = req.params.id
 
     try {
         await Quotation.deleteMany({ enquiry: id })
-        const deletedEnquiry = await Enquiry.findOneAndDelete({ user: userId, _id: id })
+        const deletedEnquiry = await Enquiry.findOneAndDelete({ _id: id })
         res.json(deletedEnquiry)
     } catch (err) {
         console.log(err)

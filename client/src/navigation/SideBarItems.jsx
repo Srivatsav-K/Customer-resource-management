@@ -32,7 +32,7 @@ const SideBarItems = (props) => {
                 onClick={hideSideBar}
             >
                 <Tab value='0' />
-                <Tab label='Dashboard' to='/user/dashboard' component={Link} />
+                <Tab sx={{ marginTop: '2rem' }} label='Dashboard' to='/user/dashboard' component={Link} />
                 <Tab label='Tasks' to='/user/tasks' component={Link} />
                 <Tab label='clients' to='/user/clients' component={Link} />
                 <Tab label='contacts' to='/user/contacts' component={Link} />

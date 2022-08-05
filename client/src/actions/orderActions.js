@@ -185,6 +185,7 @@ export const startDeleteOrder = (_id, history) => {
             })
                 .then((response) => {
                     const result = response.data
+                    console.log(result)
                     if (result.errors) {
                         toast.error(result.errors.message)
                     } else {

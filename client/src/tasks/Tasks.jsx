@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
 import { useDispatch } from "react-redux"
 //----------------------------------------------------------------------------------------------------
 import TaskForm from "./TaskForm"
 import TaskItem from "./TaskItem"
 import { startPostTask } from "../actions/taskActions"
 //----------------------------------------------------------------------------------------------------
-import { Grid, InputAdornment, TextField, Typography } from "@mui/material"
+import { Divider, Grid, InputAdornment, TextField, Typography } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 //----------------------------------------------------------------------------------------------------
 
@@ -62,7 +62,12 @@ const Tasks = ({ tasks }) => {
                         <Grid item >
                             {(filteredData.length > 0) ? (
                                 filteredData.map((ele) => {
-                                    return <TaskItem {...ele} key={ele._id} />
+                                    return (
+                                        <React.Fragment key={ele._id}>
+                                            <TaskItem {...ele} />
+                                            <Divider />
+                                        </React.Fragment>
+                                    )
                                 })
                             ) : (
                                 <Typography color='error' textAlign='center' >

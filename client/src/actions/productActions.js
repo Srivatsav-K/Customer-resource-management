@@ -79,7 +79,11 @@ export const startCreateProduct = (formData, resetForm, setErrors) => {
                     dispatch(loadingFalse())
                     const result = response.data
                     if (result.errors) {
-                        setErrors(serverErrorHelper(result.errors))
+                        if (result.errors.notice) {
+                            toast.error(result.errors.notice)
+                        } else {
+                            setErrors(serverErrorHelper(result.errors))
+                        }
                     } else {
                         dispatch(createProduct(result))
                         resetForm()

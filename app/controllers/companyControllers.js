@@ -23,7 +23,7 @@ companyControllers.create = (req, res) => {
     User.findById(userId)
         .then((user) => {
             if (!user) {
-                res.status(401).json({ errors: "Can't create" })
+                res.json({ errors: "Can't create" })
             } else {
                 const body = req.body
                 const company = new Company({ ...body, user: userId })

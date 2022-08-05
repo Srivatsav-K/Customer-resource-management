@@ -88,7 +88,7 @@ clientControllers.destroy = async (req, res) => {
                 await Contact.deleteMany({ client: id })
             }
         })
-        const deletedClient = await Client.findOneAndDelete({ user: userId, _id: id })
+        const deletedClient = await Client.findOneAndDelete({ _id: id })
         res.json(deletedClient)
     } catch (err) {
         console.log(err)

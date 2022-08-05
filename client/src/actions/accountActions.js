@@ -34,6 +34,7 @@ export const startEmployeeSignup = (formData, resetForm, setErrors, history) => 
             })
                 .then((response) => {
                     const result = response.data
+                    console.log(result)
                     if (result.errors) {
                         setErrors(serverErrorHelper(result.errors))
                     } else {

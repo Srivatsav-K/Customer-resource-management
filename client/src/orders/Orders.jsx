@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
+import { format, parseISO } from 'date-fns';
 //----------------------------------------------------------------------------------------------------
 import TableComponent from '../components/TableComponent'
 //----------------------------------------------------------------------------------------------------
@@ -17,10 +18,13 @@ const Orders = () => {
     const columns = [
         { heading: 'Title', value: 'title' },
         { heading: 'Value', value: 'total' },
-        { heading: 'Date', value: 'date', type: 'date' },
         { heading: 'Contact', value: 'contact.name' },
         { heading: 'Client', value: 'client.name' },
+        { heading: 'Date', value: 'date', type: 'date' },
+        { heading: 'Delivey', value: 'estimatedDeliveryDate', type: 'date' },
         { heading: 'Items', value: 'items', type: 'array' },
+        { heading: 'Order Status', value: 'status' },
+        { heading: 'Payment Status', value: 'paymentStatus' }
     ]
 
     const adminColumns = [...columns, { heading: 'Created By', value: 'user.username' }]
@@ -29,10 +33,22 @@ const Orders = () => {
         const result = orders.filter((ele) => {
             return (
                 ele.title.toLowerCase().includes(search.toLowerCase()) ||
+                ele.contact.name.toLowerCase().includes(search.toLowerCase()) ||
                 ele.client.name.toLowerCase().includes(search.toLowerCase()) ||
+                format(parseISO(ele.date), "dd-MM-yyyy").includes(search.toLowerCase()) ||
                 ele.user.username.toLowerCase().includes(search.toLowerCase()) ||
                 ele.total.toString().includes(search)
             )
+        }).filter((ele) => {
+            if (sort === 'paymentPending') {
+                return ele.paymentStatus === 'pending'
+            } else if (sort === 'paymentReceived') {
+                return ele.paymentStatus === 'received'
+            } else if (sort === 'orderCancelled') {
+                return ele.status === 'cancelled'
+            } else {
+                return ele
+            }
         }).sort((a, b) => {
             if (sort === 'Value - low-high') {
                 return a.total - b.total
@@ -113,6 +129,9 @@ const Orders = () => {
                         <MenuItem value='Value - high-low'>Value - high-low</MenuItem>
                         <MenuItem value='Items - low-high'>Items - low-high</MenuItem>
                         <MenuItem value='Items - high-low'>Items - high-low</MenuItem>
+                        <MenuItem value='paymentPending'>Pending Payment</MenuItem>
+                        <MenuItem value='paymentReceived'>Received Payment</MenuItem>
+                        <MenuItem value='orderCancelled'>Cancelled Orders</MenuItem>
                     </TextField>
                 </Grid>
             </Grid>

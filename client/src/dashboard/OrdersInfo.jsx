@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useCallback } from "react"
 import { useSelector } from "react-redux"
 //---------------------------------------------------------------------------------------
 import { Chart } from 'react-google-charts'
@@ -9,18 +9,22 @@ import { Paper, Stack, Typography } from '@mui/material'
 const OrdersInfo = () => {
     const orders = useSelector((state) => state.orders.data)
 
-    const data = useMemo(() => {
-        return (
-            [
-                ["Order Status", "Status"],
-                ["Placed", orders.filter((order) => order.status === 'placed').length],
-                ["Delivered", orders.filter((order) => order.status === 'delivered').length],
-                ["Cancelled", orders.filter((order) => order.status === 'cancelled').length],
-                ["Payment received", orders.filter((order) => order.paymentStatus === 'received').length],
-                ["Payment pending", orders.filter((order) => order.paymentStatus === 'pending').length],
-            ]
-        )
+    const ordersByStatus = useCallback((orderStatus) => {
+        return orders.filter((order) => order.status === orderStatus).length
     }, [orders])
+
+    const ordersByPayment = useCallback((paymentStatus) => {
+        return orders.filter((order) => order.paymentStatus === paymentStatus).length
+    }, [orders])
+
+    const data = [
+        ["Order Status", "Status"],
+        ["Placed", ordersByStatus('placed')],
+        ["Delivered", ordersByStatus('delivered')],
+        ["Cancelled", ordersByStatus('cancelled')],
+        ["Payment received", ordersByPayment('received')],
+        ["Payment pending", ordersByPayment('pending')],
+    ]
 
     const options = {
         pieSliceText: "label",

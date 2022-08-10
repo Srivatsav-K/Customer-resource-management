@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { format, parseISO } from 'date-fns'
 //---------------------------------------------------------------------------------------
@@ -9,25 +9,30 @@ import { Card } from '@mui/material';
 const MonthlySales = () => {
     const orders = useSelector((state) => state.orders.data)
 
-    const data = useMemo(() => {
-        return (
-            [
-                ["Month", "Sales (₹)", { role: "style" }],
-                ['Jan', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Jan').reduce((p, c) => p + c.total, 0), "red"],
-                ['Feb', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Feb').reduce((p, c) => p + c.total, 0), "blue"],
-                ['Mar', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Mar').reduce((p, c) => p + c.total, 0), "violet"],
-                ['Apr', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Apr').reduce((p, c) => p + c.total, 0), "yellow"],
-                ['May', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'May').reduce((p, c) => p + c.total, 0), "violet"],
-                ['June', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Jun').reduce((p, c) => p + c.total, 0), "magenta"],
-                ['July', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Jul').reduce((p, c) => p + c.total, 0), "green"],
-                ['Aug', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Aug').reduce((p, c) => p + c.total, 0), "orange"],
-                ['Sept', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Sept').reduce((p, c) => p + c.total, 0), "maroon"],
-                ['Oct', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Oct').reduce((p, c) => p + c.total, 0), "darkBlue"],
-                ['Nov', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Nov').reduce((p, c) => p + c.total, 0), "coral"],
-                ['Dec', orders.filter((order) => format(parseISO(order.date), 'MMM') === 'Dec').reduce((p, c) => p + c.total, 0), "default"]
-            ]
-        )
+    const getSales = useCallback((month) => {
+        const result = orders.filter((order) => {
+            return order.paymentStatus === 'received' && format(parseISO(order.date), 'MMM') === month
+        }).reduce((p, c) => p + c.total, 0)
+
+        return result
     }, [orders])
+
+    const data = [
+        ["Month", "Sales (₹)", { role: "style" }],
+        ['Jan', getSales('Jan'), "red"],
+        ['Feb', getSales('Feb'), "blue"],
+        ['Mar', getSales('Mar'), "violet"],
+        ['Apr', getSales('Apr'), "yellow"],
+        ['May', getSales('May'), "violet"],
+        ['June', getSales('Jun'), "magenta"],
+        ['July', getSales('Jul'), "green"],
+        ['Aug', getSales('Aug'), "orange"],
+        ['Sept', getSales('Sep'), "maroon"],
+        ['Oct', getSales('Oct'), "darkBlue"],
+        ['Nov', getSales('Nov'), "coral"],
+        ['Dec', getSales('Dec'), "default"]
+    ]
+
 
     const options = {
         vAxis: { title: "Sales (₹)" },

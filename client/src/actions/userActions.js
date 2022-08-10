@@ -47,7 +47,7 @@ const serverErrorHelper = (errors) => {
 export const startUserIsNew = () => {
     return (
         (dispatch, getState) => {
-            axios.get(`${process.env.REACT_APP_BASE_URL}users/status`)
+            axios.get(`http://localhost:3050/users/status`)
                 .then((response) => {
                     const result = response.data.status
                     dispatch(userIsNew(result))
@@ -62,7 +62,7 @@ export const startUserIsNew = () => {
 export const startGetUserData = (token, history) => {
     return (
         (dispatch) => {
-            axios.get(`${process.env.REACT_APP_BASE_URL}/users/account`, {
+            axios.get(`http://localhost:3050/users/account`, {
                 headers: {
                     'x-auth': token || localStorage.getItem('token')
                 }
@@ -92,7 +92,7 @@ export const startLogin = (formData, resetForm, props) => {
     return (
         (dispatch) => {
             dispatch(loadingTrue())
-            axios.post(`${process.env.REACT_APP_BASE_URL}/users/login`, formData)
+            axios.post(`http://localhost:3050/users/login`, formData)
                 .then((response) => {
                     const result = response.data
                     if (result.errors) {
@@ -119,7 +119,7 @@ export const startSignup = (formData, resetForm, setErrors, history) => {
     return (
         (dispatch, getState) => {
             dispatch(loadingTrue())
-            axios.post(`${process.env.REACT_APP_BASE_URL}/users/admin/signup`, formData)
+            axios.post(`http://localhost:3050/users/admin/signup`, formData)
                 .then((response) => {
                     const result = response.data
                     dispatch(loadingFalse())
@@ -148,7 +148,7 @@ export const startSignup = (formData, resetForm, setErrors, history) => {
 export const startUpdateAccDetails = (formData, setErrors) => {
     return (
         (dispatch) => {
-            axios.put(`${process.env.REACT_APP_BASE_URL}/users/update-account`, formData, {
+            axios.put(`http://localhost:3050/users/update-account`, formData, {
                 headers: {
                     'x-auth': localStorage.getItem('token')
                 }
@@ -172,7 +172,7 @@ export const startUpdateAccDetails = (formData, setErrors) => {
 export const startChangePassword = (formData, setErrors, handleDialogClose) => {
     return (
         (dispatch) => {
-            axios.put(`${process.env.REACT_APP_BASE_URL}/users/change-password`, formData, {
+            axios.put(`http://localhost:3050/users/change-password`, formData, {
                 headers: {
                     'x-auth': localStorage.getItem('token')
                 }

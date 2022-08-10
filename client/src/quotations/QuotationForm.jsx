@@ -144,7 +144,7 @@ const QuotationForm = (props) => {
         <div>
             <form onSubmit={formik.handleSubmit} ref={ref}>
                 <Paper>
-                    <Stack spacing={4} minWidth='50vw' p={6} >
+                    <Stack spacing={4} minWidth='50vw' maxWidth={{ md: '50vw' }} p={6} >
 
                         {/* Row 1 */}
                         <Stack direction='row' justifyContent='space-between'>

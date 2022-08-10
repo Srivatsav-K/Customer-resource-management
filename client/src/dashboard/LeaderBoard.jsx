@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 //---------------------------------------------------------------------------------------
 import { Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
@@ -6,7 +7,9 @@ import { Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, T
 const LeaderBoard = () => {
     const orders = useSelector((state) => state.orders.data)
 
-    const sortBySales = orders.sort((a, b) => b.total - a.total)
+    const sortBySales = useMemo(() => {
+        return orders.filter((order) => order.paymentStatus === 'received').sort((a, b) => b.total - a.total)
+    }, [orders])
 
     return (
         (orders.length === 0) ? (

@@ -23,7 +23,7 @@ const DropDown = (props) => {
                 name={name}
                 labelId={label}
                 size='small'
-                input={(variant === 'standard') ? (<Input label={label} />) : (<OutlinedInput label={label} />)}
+                input={(variant === 'standard') ? (<Input sx={{ width: 170 }} label={label} />) : (<OutlinedInput label={label} />)}
                 value={value}
                 onChange={onChange}
                 error={error}

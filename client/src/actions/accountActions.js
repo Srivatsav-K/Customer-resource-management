@@ -27,7 +27,7 @@ const serverErrorHelper = (errors) => {
 export const startEmployeeSignup = (formData, resetForm, setErrors, history) => {
     return (
         (dispatch) => {
-            axios.post(`${process.env.REACT_APP_BASE_URL}/users/employee/signup`, formData, {
+            axios.post(`http://localhost:3050/users/employee/signup`, formData, {
                 headers: {
                     'x-auth': localStorage.getItem('token')
                 }
@@ -52,7 +52,7 @@ export const startEmployeeSignup = (formData, resetForm, setErrors, history) => 
 export const startGetCompanyDetails = () => {
     return (
         (dispatch) => {
-            axios.get(`${process.env.REACT_APP_BASE_URL}/api/company`, {
+            axios.get(`http://localhost:3050/api/company`, {
                 headers: {
                     'x-auth': localStorage.getItem('token')
                 }
@@ -71,7 +71,7 @@ export const startGetCompanyDetails = () => {
 export const startPostCompanyDetails = (formData, resetForm, setErrors) => {
     return (
         (dispatch) => {
-            axios.post(`${process.env.REACT_APP_BASE_URL}/api/company', formData, {
+            axios.post(`http://localhost:3050/api/company`, formData, {
                 headers: {
                     'x-auth': localStorage.getItem('token')
                 }
@@ -97,23 +97,23 @@ export const startUpdateCompanyDetails = (_id, formData, setErrors) => {
         (dispatch) => {
             axios.put(`http://localhost:3050/api/company/${_id}`, formData, {
                 headers: {
-                'x-auth': localStorage.getItem('token')
-            }
+                    'x-auth': localStorage.getItem('token')
+                }
             })
-        .then((response) => {
-            const result = response.data
-            if (result.errors) {
-                setErrors(serverErrorHelper(result.errors))
-            } else {
+                .then((response) => {
+                    const result = response.data
+                    if (result.errors) {
+                        setErrors(serverErrorHelper(result.errors))
+                    } else {
 
-                dispatch(updateCompanyDetails(result))
-                toast.success('Updated successfully!')
-            }
-        })
-        .catch((err) => {
-            toast.error(err.message)
-        })
-}
+                        dispatch(updateCompanyDetails(result))
+                        toast.success('Updated successfully!')
+                    }
+                })
+                .catch((err) => {
+                    toast.error(err.message)
+                })
+        }
     )
 }
 

@@ -190,6 +190,8 @@ export const startDeleteOrder = (_id, history) => {
                         toast.error(result.errors.message)
                     } else {
                         dispatch(deleteOrder(result))
+                        dispatch(startUpdateClientDetails(result.client, { customer: false }))
+                        dispatch(startUpdateContactDetails(result.contact, { customer: false }))
                         history.push('/user/orders')
                         toast.success('Deleted Successfully!')
                     }

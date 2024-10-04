@@ -10,7 +10,7 @@ import { AppBar, IconButton, Toolbar, Typography, Button, Box } from '@mui/mater
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GoogleIcon from '@mui/icons-material/Google';
 import MenuIcon from '@mui/icons-material/Menu';
-import Calculate from './Calculate';
+// import Calculate from './Calculate';
 //------------------------------------------------------------------------------------------
 
 const NavBar = (props) => {
@@ -92,7 +92,7 @@ const NavBar = (props) => {
                 <Box>
                     {(user.isLoggedIn) ? (
                         <>
-                            <Calculate />
+                            {/* <Calculate /> */}
 
                             <IconButton color='inherit' type='a' target='#' href='https://www.google.com/' >
                                 <GoogleIcon />

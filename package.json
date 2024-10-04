@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client:dev": "cd client && npm run start",
+    "client:dev": "cd client && npm run dev",
     "server:dev": "node --watch index.js"
   },
   "keywords": [],

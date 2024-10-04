@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from "@mui/material"
-import { ReactComponent as Error404 } from "../assets/illustration_404.svg"
+import Error404 from '../assets/illustration_404.svg?react'
 
 
 const Error = (props) => {

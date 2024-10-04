@@ -1,5 +1,5 @@
 import { Container, Grid, Stack, Typography } from "@mui/material"
-import { ReactComponent as CRMimage } from "../assets/undraw_cms_re_asu0.svg"
+import CRMimage from "../assets/undraw_cms_re_asu0.svg?react";
 
 const Home = () => {
     return (

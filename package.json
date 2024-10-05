@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "client:dev": "cd client && npm run dev",
-    "server:dev": "node --watch index.js"
+    "client:build":"cd client && npm run build",
+    "server:dev": "node --watch index.js",
+    "server:start": "node index.js",
+    "start": "npm run client:build && npm run server:start"
   },
   "keywords": [],
   "author": "",

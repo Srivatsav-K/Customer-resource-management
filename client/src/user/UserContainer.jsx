@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Switch, Route } from "react-router-dom"
 //--------------------------------------------------------------------------
 import { startGetClients } from '../actions/clientActions'
 import { startGetContacts } from '../actions/contactActions'
@@ -44,6 +45,7 @@ import TasksContainer from '../tasks/TasksContainer'
 import Account from '../account/Account'
 //--------------------------------------------------------------------------
 import { Grid } from '@mui/material'
+import Error from '../common/Error'
 //--------------------------------------------------------------------------
 
 const UserContainer = () => {
@@ -78,34 +80,38 @@ const UserContainer = () => {
             </Grid>
 
             <Grid item xs={12} md={10} px={2} >
-                <PrivateRoute path='/user/dashboard' component={Dashboard} />
-                <PrivateRoute path='/user/account' component={Account} />
+                <Switch>
+                    <PrivateRoute path='/user/dashboard' component={Dashboard} />
+                    <PrivateRoute path='/user/account' component={Account} />
 
-                <PrivateRoute path='/user/clients' component={Clients} exact />
-                <PrivateRoute path='/user/add-client' component={AddClient} />
-                <PrivateRoute path='/user/clients/:id' component={ClientDetails} />
+                    <PrivateRoute path='/user/clients' component={Clients} exact />
+                    <PrivateRoute path='/user/add-client' component={AddClient} />
+                    <PrivateRoute path='/user/clients/:id' component={ClientDetails} />
 
-                <PrivateRoute path='/user/contacts' component={Contacts} exact />
-                <PrivateRoute path='/user/add-contact' component={AddContact} />
-                <PrivateRoute path='/user/contacts/:id' component={ContactDetails} />
+                    <PrivateRoute path='/user/contacts' component={Contacts} exact />
+                    <PrivateRoute path='/user/add-contact' component={AddContact} />
+                    <PrivateRoute path='/user/contacts/:id' component={ContactDetails} />
 
-                <PrivateRoute path='/user/enquiries' component={Enquiries} exact />
-                <PrivateRoute path='/user/new-enquiry' component={NewEnquiry} />
-                <PrivateRoute path='/user/enquiries/:id' component={EnquiryDetails} />
+                    <PrivateRoute path='/user/enquiries' component={Enquiries} exact />
+                    <PrivateRoute path='/user/new-enquiry' component={NewEnquiry} />
+                    <PrivateRoute path='/user/enquiries/:id' component={EnquiryDetails} />
 
-                <PrivateRoute path='/user/products' component={Products} exact />
-                <PrivateRoute path='/user/add-product' component={AddProduct} />
-                <PrivateRoute path='/user/products/:id' component={ProductDetails} />
+                    <PrivateRoute path='/user/products' component={Products} exact />
+                    <PrivateRoute path='/user/add-product' component={AddProduct} />
+                    <PrivateRoute path='/user/products/:id' component={ProductDetails} />
 
-                <PrivateRoute path='/user/quotations' component={Quotations} exact />
-                <PrivateRoute path='/user/new-quotation' component={CreateQuotation} />
-                <PrivateRoute path='/user/quotations/:id' component={QuotationDetails} />
+                    <PrivateRoute path='/user/quotations' component={Quotations} exact />
+                    <PrivateRoute path='/user/new-quotation' component={CreateQuotation} />
+                    <PrivateRoute path='/user/quotations/:id' component={QuotationDetails} />
 
-                <PrivateRoute path='/user/orders' component={Orders} exact />
-                <PrivateRoute path='/user/new-order' component={CreateOrder} />
-                <PrivateRoute path='/user/orders/:id' component={OrderDetails} />
+                    <PrivateRoute path='/user/orders' component={Orders} exact />
+                    <PrivateRoute path='/user/new-order' component={CreateOrder} />
+                    <PrivateRoute path='/user/orders/:id' component={OrderDetails} />
 
-                <PrivateRoute path='/user/tasks' component={TasksContainer} exact />
+                    <PrivateRoute path='/user/tasks' component={TasksContainer} exact />
+
+                    <Route path='*' component={Error}  />
+                </Switch>
             </Grid>
         </Grid>
     )

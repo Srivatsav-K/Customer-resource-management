@@ -15,7 +15,7 @@ const orderControllers = require('../app/controllers/orderControllers')
 const taskControllers = require('../app/controllers/taskControllers')
 //-----------------------------------------------------------------------------------------
 
-router.get('/', (req, res) => res.send('CRM app base url'))
+// router.get('/', (req, res) => res.send('CRM app base url'))
 
 //-----------------------------------------------------------------------------------------
 

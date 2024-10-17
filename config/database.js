@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const CONNECTION_URI = encodeURIComponent(process.env.MONGODB_URI);
+const CONNECTION_URI = process.env.MONGODB_URI;
 
 const configDB = () => {
   mongoose

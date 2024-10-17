@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "client:dev": "cd client && npm run dev",
-    "client:build":"cd client && npm run build",
+    "client:build": "cd client && npm run build",
     "server:dev": "node --watch index.js",
     "server:start": "node index.js",
+    "install:deps": "npm ci && cd client && npm ci --force",
     "start": "npm run client:build && npm run server:start"
   },
   "keywords": [],
